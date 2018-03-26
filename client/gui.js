@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -25,10 +25,17 @@ var gui = {
         });
     },
     updateContacts: function(contacts){
-        $("div#tabContent div.tab[name=Comms] div#contactList a.button").remove();
+        var contactList = "div#tabContent div.tab[name=Comms] div#contactList";
+        //$("div#tabContent div.tab[name=Comms] div#contactList a.button").remove();
         $(contacts).each(function(){
-            $("div#tabContent div.tab[name=Comms] div#contactList").append("<a class='button'>"+this+"</a>");
+            if($("a.button[name="+this+"]", contactList).length == 0){
+                $("div#tabContent div.tab[name=Comms] div#contactList").append("<a class='button current' name='"+this+"'>"+this+"</a>");
+            } else {
+                $("a.button[name="+this+"]", contactList).addClass("current");
+            }
         });
+        $("a.button", contactList).not(".current").remove();
+        $("a.button", contactList).removeClass("current");
         this.initContacts();
     },
     showMessage: function(message){
