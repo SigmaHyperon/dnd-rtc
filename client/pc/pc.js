@@ -6,6 +6,7 @@
 
 
 function init(){
+    $("span.text#version").html(version);
     var name;
     var url;
     if(!isDebugMode()){
