@@ -1,17 +1,17 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-function nl2br(str) {    
+function nl2br(str) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ '<br>' +'$2');
 }
+function s4() {
+  return Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1);
+}
 function guid() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 }
@@ -29,8 +29,9 @@ class recall {
         this.id = id;
     }
 }
-function connect(name, isDm){
-    var socket = io('http://sigmahyperon.nsupdate.info:3000');
+function connect(url, name, isDm){
+    //'http://sigmahyperon.nsupdate.info:3000'
+    var socket = io(url);
     socket.on('connect', function(){
         if(isDm){
             socket.emit("join_dm", name);
