@@ -1,0 +1,111 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 15, 2017, 2:34:27 PM
+    Author     : anderssn
+*/
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden
+}
+div#messageList {
+    float: left;
+    padding: 5px;
+    width: 75%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+div#messageList div.message {
+    border: 1px solid #646464;
+    background: #cecece;
+    padding: 5px;
+    float: left;
+    clear: left;
+    margin-bottom: 5px;
+}
+div#messageList div.message.removed {
+    font-style: italic;
+}
+div#tabHandles {
+    width: 100%;
+    float: left;
+    background: #eeeeee;
+    border-bottom: 1px solid #646464;
+    padding: 5px;
+}
+a.button {
+    display: block;
+    background: #e3e3e3;
+    border: 1px solid #646464;
+    padding: 5px;
+    width: 150px;
+    float: left;
+    text-align: center;
+    cursor: pointer;
+    margin-right: 5px;
+}
+a.button:hover {
+    background: #cecece
+}
+a.button.active {
+    border: 1px solid #ffffff;
+    background: #999999;
+    color: #ffffff;
+}
+a.button.inline {
+    float: none;
+    width: auto;
+    display: inline-block;
+}
+
+div#tabContent{
+    float: left;
+    width: 100%;
+    height: 100%;
+}
+div#tabContent div.tab{
+    float: left;
+    display:none;
+    height: 100%;
+    width: 100%;
+}
+div#tabContent div.tab[name=Comms] div#contactList{
+    float: right;
+    height: 100%;
+    width: 170px;
+    background: #eeeeee;
+    border-left: 1px solid #646464;
+    padding: 5px 5px 0px 5px;
+}
+div#tabContent div.tab[name=Comms] div#contactList a.button {
+    margin-bottom: 5px;
+}
+div#tabContent div.tab[name=Comms] div#contactList a.button.active {
+    margin-bottom: 3px;
+    border-radius: 3px;
+}
+div#tabContent div.tab[name=Comms] div#footer {
+    position: absolute;
+    float: left;
+    clear: left;
+    bottom: 0px;
+    padding: 5px;
+    border-top: 1px solid #646464;
+    width: 100%;
+    background: #eeeeee;
+}
+div#tabContent div.tab[name=Comms] div#footer textarea#messageInput {
+    float: left;
+    clear: left;
+    margin-right: 5px;
+}
+div#tabContent div.tab[name=Comms] div#footer a.button {
+    padding: 8px 7px 7px 7px;
+}
