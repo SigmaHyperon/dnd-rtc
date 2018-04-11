@@ -20,7 +20,7 @@ var gui = {
         });
     },
     initContacts: function(){
-        $("div#tabContent div.tab[name=Comms] div#contactList a.button").on("click", function(){
+        $("div#tabContent div.tab[name=Comms] div#contactList a.button").off("click").on("click", function(){
             $(this).toggleClass("active");
         });
     },
