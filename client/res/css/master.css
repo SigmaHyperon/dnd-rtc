@@ -1,0 +1,90 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/dnd/res/fonts/iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url(/dnd/res/fonts/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
+    url(/dnd/res/fonts/iconfont/MaterialIcons-Regular.woff) format('woff'),
+    url(/dnd/res/fonts/iconfont/MaterialIcons-Regular.ttf) format('truetype');
+}
+.icon {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+.center{
+    display: block;
+    margin: 0 auto;
+}
+
+.button {
+    display: block;
+    background: #e3e3e3;
+    border: 1px solid #646464;
+    padding: 5px;
+    width: 150px;
+    float: left;
+    text-align: center;
+    cursor: pointer;
+    margin: 3px;
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+}
+.button:hover {
+    background: #cecece
+}
+.button:active {
+    background: #555555;
+    color: #ffffff;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.box {
+    background: #e3e3e3;
+    border: 1px solid #646464;
+    padding: 5px;
+    float: none;
+    overflow: hidden;
+}
+.box.invis {
+    background: transparent;
+    border: transparent;
+}
+
+.center.box {
+    width: fit-content;
+}
