@@ -25,7 +25,8 @@ function init(){
             name = sessionStorage.getItem("name");
         }
         if(sessionStorage.getItem("url") == null){
-            url = "http://"+prompt("Enter url:")+":3000";
+            var p = prompt("Enter url:");
+            url = (p == "")? config.nodeUrl : "http://"+p+":3000";
             sessionStorage.setItem("url", url);
         } else {
             url = sessionStorage.getItem("url");
