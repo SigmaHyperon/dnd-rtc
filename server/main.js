@@ -33,10 +33,11 @@ class player {
         //console.log("total players: "+(Object.keys(players).length+1))
     }
 }
+var config = require("./config.js");
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://172.24.0.100:27017/dndtest";
 var db = null;
-MongoClient.connect(url, function(err, dbl){
+MongoClient.connect(config.mongoUrl, function(err, dbl){
     if (err)
         throw err;
     db = dbl;
@@ -89,4 +90,4 @@ io.on('connection', function(socket){
         db.collection("characters").insertOne(data);
     });
 });
-io.listen(3000);
+io.listen(config.nodePort);
