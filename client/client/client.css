@@ -31,8 +31,12 @@ div#messageList div.message {
     background: #cecece;
     padding: 5px;
     float: left;
-    clear: left;
+    clear: both;
     margin-bottom: 5px;
+}
+div#messageList div.message.self {
+    float: right;
+    clear: both;
 }
 div#messageList div.message.removed {
     font-style: italic;

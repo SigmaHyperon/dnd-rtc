@@ -59,7 +59,7 @@ var gui = {
         for (var id in message.recipients){
             recipients.push(message.recipients[id]+" <a class='button inline' name='"+message.recipients[id]+"' uid='"+message.id+"'>revoke</a>");
         }
-        var text = "<div class='message'>"+
+        var text = "<div class='message self'>"+
                         "<div class='header'>"+
                             "<b>Sent to:</b> "+ recipients.join(", ") +
                         "</div>"+
