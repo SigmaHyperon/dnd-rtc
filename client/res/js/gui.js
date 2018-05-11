@@ -87,7 +87,7 @@ var gui = {
     updateCharacterList: function(characters){
         for (var index in characters) {
             var char = characters[index];
-            $('<div class="character button"><img src="/dnd/res/img/classIconsSelected/Icon.'+
+            $('<div class="character button"><img src="../res/img/classIconsSelected/Icon.'+
             ((char.icon < 10) ? "0" + char.icon : char.icon)+
             '.png" alt="" width="50" height="50"><br>'+char.name+'</div>').prependTo("div.characters").data("character", char);
         }
