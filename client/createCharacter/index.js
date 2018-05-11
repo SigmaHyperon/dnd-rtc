@@ -11,7 +11,7 @@ $(function(){
         nameInput.val("");
         pwdInput.val("");
     });
-    connect("localhost:3000");
+    connect(config.nodeUrl);
     $("div.button#submit").on("click", function(){
         var name = nameInput.val();
         var nameLower = name.toLowerCase();

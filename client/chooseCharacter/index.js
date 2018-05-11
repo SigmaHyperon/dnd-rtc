@@ -3,5 +3,5 @@ $(function(){
     if(name != null){
         window.location.href = "../client";
     }
-    connect("localhost:3000");
+    connect(config.nodeUrl);
 });

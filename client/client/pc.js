@@ -16,7 +16,7 @@ function init(){
         } else {
             name = sessionStorage.getItem("name");
         }
-        url = 'http://sigmahyperon.nsupdate.info:3000';
+        url = config.nodeUrl;
     } else {
         if(sessionStorage.getItem("name") == null){
             name = "test"+s4();
