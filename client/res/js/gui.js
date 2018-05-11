@@ -54,6 +54,10 @@ var gui = {
     removeMessage: function(uid){
         $("div#tabContent div.tab[name=Comms] div#messageList div.message[uid='"+uid+"']").replaceWith("<div class='message removed'>removed</div>");
     },
+    showRemoved: function(){
+        $("div#tabContent div.tab[name=Comms] div#messageList").append("<div class='message removed'>removed</div>");
+        $("div#tabContent div.tab[name=Comms] div#messageList").scrollTop($("div#tabContent div.tab[name=Comms] div#messageList").prop('scrollHeight'));
+    },
     showSent: function(message,socket){
         var recipients = [];
         for (var id in message.recipients){

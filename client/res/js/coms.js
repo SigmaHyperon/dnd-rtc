@@ -22,6 +22,11 @@ class message {
         this.name = name;
         this.recipients = [];
         this.text = text;
+        this.status = {};
+        this.time = {
+            sent: Date.now(),
+            received: {}
+        };
     }
 }
 class recall {
@@ -88,35 +93,39 @@ function connect(url, name, isDm){
         console.log(data);
         gui.updateCharacterList(data);
     });
-    function sendMessage(e){
-        if(e.which == 13 && e.shiftKey) {
-            var cMessage = new message(name,nl2br($("div#tabContent div.tab[name=Comms] textarea#messageInput").val()));
-            $("div#tabContent div.tab[name=Comms] div#contactList a.button.active").each(function(){
-                cMessage.recipients.push($(this).text());
-            });
-            socket.emit("message", cMessage);
-            $("div#tabContent div.tab[name=Comms] textarea#messageInput").val('');
-            return false;
-        }
-    }
-    $("div#tabContent div.tab[name=Comms] div#footer textarea#messageInput").on("keydown", function(e){
-        if(e.which == 13 && e.shiftKey) {
-            var cMessage = new message(name,nl2br($("div#tabContent div.tab[name=Comms] textarea#messageInput").val()));
-            $("div#tabContent div.tab[name=Comms] div#contactList a.button.active").each(function(){
-                cMessage.recipients.push($(this).text());
-            });
-            socket.emit("message", cMessage);
-            $("div#tabContent div.tab[name=Comms] textarea#messageInput").val('');
-            return false;
+    socket.on("messages", function(data){
+        console.log(data);
+        for (var mes in data) {
+            if (data.hasOwnProperty(mes)) {
+                if(name == data[mes].name){
+                    gui.showSent(data[mes],socket);
+                } else {
+                    console.log(data[mes]);
+                    if(data[mes].status != undefined && data[mes].status[name] != undefined && data[mes].status[name] == "recalled"){
+                        gui.showRemoved();
+                    } else {
+                        gui.showMessage(data[mes]);
+                    }
+                }
+            }
         }
     });
-    $("div#tabContent div.tab[name=Comms] div#footer a.button").on("click", function(e){
+    function sendMessage(){
         var cMessage = new message(name,nl2br($("div#tabContent div.tab[name=Comms] textarea#messageInput").val()));
         $("div#tabContent div.tab[name=Comms] div#contactList a.button.active").each(function(){
             cMessage.recipients.push($(this).text());
         });
         socket.emit("message", cMessage);
         $("div#tabContent div.tab[name=Comms] textarea#messageInput").val('');
-        return false;
+    }
+    $("div#tabContent div.tab[name=Comms] div#footer textarea#messageInput").on("keydown", function(e){
+        if(e.which == 13 && e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+    $("div#tabContent div.tab[name=Comms] div#footer a.button").on("click", function(e){
+        e.preventDefault();
+        sendMessage();
     });
 }
