@@ -113,3 +113,6 @@ div#tabContent div.tab[name=Comms] div#footer textarea#messageInput {
 div#tabContent div.tab[name=Comms] div#footer a.button {
     padding: 8px 7px 7px 7px;
 }
+div#tabHandles i#connected {
+    float: right;
+}

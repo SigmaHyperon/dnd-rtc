@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+var sock = null;
 function nl2br(str) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ '<br>' +'$2');
 }
@@ -29,15 +30,29 @@ class recall {
         this.id = id;
     }
 }
+
+function emit(key, data){
+    if(sock == null){
+        return false;
+    }
+    sock.emit(key,data);
+    return true;
+}
 function connect(url, name, isDm){
     //'http://sigmahyperon.nsupdate.info:3000'
     var socket = io(url);
     socket.on('connect', function(){
-        if(isDm){
-            socket.emit("join_dm", name);
+        if(name != undefined){
+            if(isDm){
+                socket.emit("join_dm", name);
+            } else {
+                socket.emit("join_pc", name);
+            }
         } else {
-            socket.emit("join_pc", name);
+            socket.emit("getCharacters");
         }
+        sock = socket;
+        gui.setConnectedStatus(true);
     });
     socket.on('message', function(data){
         console.log("message from: "+data.name+": "+data.text);
@@ -65,7 +80,14 @@ function connect(url, name, isDm){
         console.log(data);
         gui.removeMessage(data.id);
     });
-    socket.on('disconnect', function(){});
+    socket.on('disconnect', function(){
+        sock = null;
+        gui.setConnectedStatus(false);
+    });
+    socket.on("characterList", function(data){
+        console.log(data);
+        gui.updateCharacterList(data);
+    });
     function sendMessage(e){
         if(e.which == 13 && e.shiftKey) {
             var cMessage = new message(name,nl2br($("div#tabContent div.tab[name=Comms] textarea#messageInput").val()));

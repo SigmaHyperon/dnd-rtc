@@ -1,0 +1,11 @@
+.box.characters {
+    max-width: 672px;
+}
+.button.character {
+    height: 72px;
+    width: 72px;
+    vertical-align: middle;
+}
+.button.character#add i {
+    margin-top: 24px;
+}

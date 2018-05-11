@@ -10,10 +10,20 @@ function init(){
     var name;
     var url;
     if(!isDebugMode()){
-        name = prompt("Enter character name:");
+        if(sessionStorage.getItem("name") == null){
+            name = prompt("Enter character name:");
+            sessionStorage.setItem("name", name);
+        } else {
+            name = sessionStorage.getItem("name");
+        }
         url = 'http://sigmahyperon.nsupdate.info:3000';
     } else {
-        name = "test"+s4();
+        if(sessionStorage.getItem("name") == null){
+            name = "test"+s4();
+            sessionStorage.setItem("name", name);
+        } else {
+            name = sessionStorage.getItem("name");
+        }
         if(sessionStorage.getItem("url") == null){
             url = "http://"+prompt("Enter url:")+":3000";
             sessionStorage.setItem("url", url);
@@ -24,6 +34,11 @@ function init(){
 
     connect(url, name, false);
     gui.init();
+    $("div#tabHandles a.button#logout").on("click", function(){
+        sessionStorage.removeItem("name");
+        sessionStorage.removeItem("url");
+        window.location.href = "../chooseCharacter";
+    })
     $("div#tabHandles a.button[name=Comms]").click();
 }
 $(function(){

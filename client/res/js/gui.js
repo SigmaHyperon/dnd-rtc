@@ -12,7 +12,7 @@ var gui = {
         $(window).on("resize",gui.updateMessageList);
     },
     initTabs: function(){
-        $("div#tabHandles a").on("click",function(){
+        $("div#tabHandles a.button.tabHandle").on("click",function(){
             $("div#tabHandles a").removeClass("active");
             $(this).addClass("active");
             $("div#tabContent").children().hide();
@@ -79,5 +79,28 @@ var gui = {
         $("div#tabContent div.tab[name=Comms] div#messageList").css("width",$(window).width()-192+"px");
         $("div#tabContent div.tab[name=Comms] div#messageList").css("height",$(window).height()-99+"px");
         $("div#tabContent div.tab[name=Comms] div#messageList").scrollTop($("div#tabContent div.tab[name=Comms] div#messageList").prop('scrollHeight'));
+    },
+    updateCharacterList: function(characters){
+        for (var index in characters) {
+            var char = characters[index];
+            $('<div class="character button"><img src="/dnd/res/img/classIconsSelected/Icon.'+
+            ((char.icon < 10) ? "0" + char.icon : char.icon)+
+            '.png" alt="" width="50" height="50"><br>'+char.name+'</div>').prependTo("div.characters").data("character", char);
+        }
+        $("div.button.character").not("#add").on("click",function(){
+            if(sessionStorage.getItem("name") == null){
+                sessionStorage.setItem("name", $(this).data("character").name);
+                window.location.href = "../client";
+            } else {
+                window.location.href = "../client";
+            }
+        });
+    },
+    setConnectedStatus: function(connected){
+        if(connected){
+            $("i#connected").css("color", "green").html("wifi");
+        } else {
+            $("i#connected").css("color", "red").html("signal_wifi_off");
+        }
     },
 }

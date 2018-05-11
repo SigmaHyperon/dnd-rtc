@@ -9,21 +9,23 @@ and open the template in the editor.
         <title>DnD Com</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="../version.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../jquery.js" type="text/javascript"></script>
-        <script src="../socket-io.js" type="text/javascript"></script>
-        <script src="../tools.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../coms.js" type="text/javascript"></script>
-        <script src="../gui.js" type="text/javascript"></script>
+        <script src="../res/js/version.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../res/js/jquery.js" type="text/javascript"></script>
+        <script src="../res/js/socket-io.js" type="text/javascript"></script>
+        <script src="../res/js/tools.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../res/js/coms.js" type="text/javascript"></script>
+        <script src="../res/js/gui.js" type="text/javascript"></script>
         <script src="pc.js" type="text/javascript"></script>
-        <link href="../css/client.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="../res/css/master.css">
+        <link href="client.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div id="tabHandles">
-            <a class="button" name="Comms">Comms</a>
-            <a class="button" name="Inventory">Inventory</a>
-            <a class="button" name="stuff">stuff</a>
+            <a class="button tabHandle" name="Comms">Comms</a>
+            <a class="button tabHandle" name="Inventory">Inventory</a>
+            <a class="button" name="logout" id="logout">logout</a>
             <span class="text" id="version"></span>
+            <i class="icon" id="connected"></i>
         </div>
         <div id="tabContent">
             <div class="tab" name="Comms">
