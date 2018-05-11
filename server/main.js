@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -27,6 +27,8 @@ class player {
         //console.log("total players: "+(Object.keys(players).length+1))
     }
 }
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://172.24.0.100:27017/dndtest";
 var players = {};
 
 
@@ -61,9 +63,27 @@ io.on('connection', function(socket){
     socket.on("disconnect",function(){
         //console.log("===========================");
         //console.log("player "+me.name+" disconnected");
-        delete players[me.name];
+        if(me != undefined)
+            delete players[me.name];
         //console.log(Object.keys(players).length+" players left");
         io.emit("playerListUpdate", Object.keys(players));
+    });
+    socket.on("getCharacters",function(){
+        MongoClient.connect(url, function(err, db){
+            if (err)
+                throw err;
+            db.collection("characters").find({}).toArray(function(err, result){
+                console.log(result);
+                socket.emit("characterList", result);
+            });
+        });
+    });
+    socket.on("createCharacter", function(data){
+        MongoClient.connect(url, function(err, db){
+            if (err)
+                throw err;
+            db.collection("characters").insertOne(data);
+        });
     });
 });
 io.listen(3000);
