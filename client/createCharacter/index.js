@@ -1,3 +1,13 @@
+function cc_s4() {
+  return Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1);
+}
+function cc_guid() {
+  return cc_s4() + cc_s4() + '-' + cc_s4() + '-' + cc_s4() + '-' +
+    cc_s4() + '-' + cc_s4() + cc_s4() + cc_s4();
+}
+
 var nameBlacklist = ["420", "69", "xx", "boi", "blaze"]
 $(function(){
     var imageSelector = $("select[name=icon]");
@@ -21,7 +31,7 @@ $(function(){
         }
         var pwd = pwdInput.val();
         var icon = imageSelector.val();
-        if(emit("createCharacter",{name: name, password: pwd, icon: icon})){
+        if(emit("createCharacter",{id: cc_guid(),name: name, password: pwd, icon: icon})){
             window.location.href = "../chooseCharacter";
         } else {
             alert("error");

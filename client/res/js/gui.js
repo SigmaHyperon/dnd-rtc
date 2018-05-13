@@ -25,24 +25,36 @@ var gui = {
         });
     },
     updateContacts: function(contacts){
+        console.log(contacts);
         var contactList = "div#tabContent div.tab[name=Comms] div#contactList";
         //$("div#tabContent div.tab[name=Comms] div#contactList a.button").remove();
-        $(contacts).each(function(){
-            if($("a.button[name="+this+"]", contactList).length == 0){
-                $("div#tabContent div.tab[name=Comms] div#contactList").append("<a class='button current' name='"+this+"'>"+this+"</a>");
-            } else {
-                $("a.button[name="+this+"]", contactList).addClass("current");
+        //$(contacts).each(function(){
+        for (var index in contacts) {
+            if (contacts.hasOwnProperty(index)) {
+                if($("a.button[name="+contacts[index].id+"]", contactList).length == 0){
+                    $("div#tabContent div.tab[name=Comms] div#contactList").append("<a class='button current' name='"+contacts[index].id+"'>"+contacts[index].name+"</a>");
+                } else {
+                    $("a.button[name="+contacts[index].id+"]", contactList).addClass("current");
+                }
             }
-        });
+        }
+        //});
         $("a.button", contactList).not(".current").remove();
         $("a.button", contactList).removeClass("current");
         this.initContacts();
     },
     showMessage: function(message){
+        console.log(message);
+        var recipients = [];
+        for (var index in message.recipients) {
+            if (message.recipients.hasOwnProperty(index)) {
+                recipients.push(message.recipients[index].name);
+            }
+        }
         var text = "<div class='message' uid='"+message.id+"'>"+
                         "<div class='header'>"+
-                            "<b>From:</b> "+message.name+"<br>"+
-                            "<b>To:</b> "+ message.recipients.join(", ") +
+                            "<b>From:</b> "+message.sender.name+"<br>"+
+                            "<b>To:</b> "+ recipients.join(", ") +
                         "</div>"+
                         "<div class='body'>"+
                             message.text+
@@ -61,7 +73,7 @@ var gui = {
     showSent: function(message,socket){
         var recipients = [];
         for (var id in message.recipients){
-            recipients.push(message.recipients[id]+" <a class='button inline' name='"+message.recipients[id]+"' uid='"+message.id+"'>revoke</a>");
+            recipients.push(message.recipients[id].name+" <a class='button inline' name='"+message.recipients[id].id+"' uid='"+message.id+"'>revoke</a>");
         }
         var text = "<div class='message self'>"+
                         "<div class='header'>"+
@@ -93,7 +105,7 @@ var gui = {
         }
         $("div.button.character").not("#add").on("click",function(){
             if(sessionStorage.getItem("name") == null){
-                sessionStorage.setItem("name", $(this).data("character").name);
+                sessionStorage.setItem("name", $(this).data("character").id);
                 window.location.href = "../client";
             } else {
                 window.location.href = "../client";

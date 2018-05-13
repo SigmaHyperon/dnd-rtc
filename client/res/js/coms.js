@@ -43,16 +43,12 @@ function emit(key, data){
     sock.emit(key,data);
     return true;
 }
-function connect(url, name, isDm){
+function connect(url, id){
     //'http://sigmahyperon.nsupdate.info:3000'
     var socket = io(url);
     socket.on('connect', function(){
-        if(name != undefined){
-            if(isDm){
-                socket.emit("join_dm", name);
-            } else {
-                socket.emit("join_pc", name);
-            }
+        if(id != undefined){
+            socket.emit("join_pc", id);
         } else {
             socket.emit("getCharacters");
         }
@@ -62,7 +58,7 @@ function connect(url, name, isDm){
     socket.on('message', function(data){
         console.log("message from: "+data.name+": "+data.text);
         //$("div#tabContent div.tab[name=Comms] div#messageList").append("<div class='message'>"+data.name+" says: "+data.text+"</div>");
-        if(name == data.name){
+        if(id == data.sender.id){
             gui.showSent(data,socket);
         } else {
             gui.showMessage(data);
@@ -74,34 +70,33 @@ function connect(url, name, isDm){
         });*/
     });
     socket.on('playerListUpdate', function(data){
-        for(var id in data){
-            if(data[id] == name){
-                data.splice(id,1);
+        //console.log(data);
+        for(var index in data){
+            if(data[index].id == id){
+                //data.splice(id,1);
+                delete data[index];
             }
         }
+        //console.log(data);
         gui.updateContacts(data);
     });
     socket.on("recall",function(data){
-        console.log(data);
-        gui.removeMessage(data.id);
+        gui.removeMessage(data.messageId);
     });
     socket.on('disconnect', function(){
         sock = null;
         gui.setConnectedStatus(false);
     });
     socket.on("characterList", function(data){
-        console.log(data);
         gui.updateCharacterList(data);
     });
     socket.on("messages", function(data){
-        console.log(data);
         for (var mes in data) {
             if (data.hasOwnProperty(mes)) {
-                if(name == data[mes].name){
+                if(id == data[mes].sender.id){
                     gui.showSent(data[mes],socket);
                 } else {
-                    console.log(data[mes]);
-                    if(data[mes].status != undefined && data[mes].status[name] != undefined && data[mes].status[name] == "recalled"){
+                    if(data[mes].status != undefined && data[mes].status[id] != undefined && data[mes].status[id] == "recalled"){
                         gui.showRemoved();
                     } else {
                         gui.showMessage(data[mes]);
@@ -111,9 +106,12 @@ function connect(url, name, isDm){
         }
     });
     function sendMessage(){
-        var cMessage = new message(name,nl2br($("div#tabContent div.tab[name=Comms] textarea#messageInput").val()));
+        var cMessage = new Message();
+        //name,nl2br($("div#tabContent div.tab[name=Comms] textarea#messageInput").val())
+        cMessage.sender = id;
+        cMessage.text = $("div#tabContent div.tab[name=Comms] textarea#messageInput").val();
         $("div#tabContent div.tab[name=Comms] div#contactList a.button.active").each(function(){
-            cMessage.recipients.push($(this).text());
+            cMessage.recipients.push($(this).attr("name"));
         });
         socket.emit("message", cMessage);
         $("div#tabContent div.tab[name=Comms] textarea#messageInput").val('');
