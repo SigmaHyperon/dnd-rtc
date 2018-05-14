@@ -34,6 +34,11 @@ class player {
         //console.log("total players: "+(Object.keys(players).length+1))
     }
 }
+
+function log(text){
+    var d = new Date();
+    console.log(d.toLocaleTimeString()+"# "+text)
+}
 var config = require("./config.js");
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://172.24.0.100:27017/dndtest";
@@ -64,6 +69,7 @@ io.on('connection', function(socket){
         db.collection("characters").find({id: characterId}).toArray(function(err, result){
             //console.log(result);
             me.load(result[0]);
+            log("player "+me.name+" has connected");
             me.socket = socket;
             players[me.id] = me;
             //console.log(players);
@@ -86,13 +92,13 @@ io.on('connection', function(socket){
                 return element.id == sId;
             });
             data.sender.load(c);
-            console.log(data);
+            //console.log(data);
             for (var index in data.recipients) {
                 var s_Id = data.recipients[index];
                 data.recipients[index] = new classes.character();
                 data.recipients[index].load(result.find(function(element){return element.id == s_Id}));
             }
-            console.log(data);
+            //console.log(data);
             players[data.sender.id].socket.emit("message", data);
             for (var index in data.recipients){
                 players[data.recipients[index].id].socket.emit("message", data);
@@ -108,7 +114,11 @@ io.on('connection', function(socket){
     });
     socket.on("disconnect",function(){
         if(me != undefined)
+        {
+            log("player "+me.name+" has disconnected");
             delete players[me.id];
+        }
+
         io.emit("playerListUpdate", getRedactedPlayers());
         /*if(Object.keys(players).length == 0){
             db.collection("messages").deleteMany({});
