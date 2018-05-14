@@ -10,9 +10,9 @@ function init(){
     var name;
     var url;
     if(!isDebugMode()){
-        if(sessionStorage.getItem("name") == null){
-            name = prompt("Enter character name:");
-            sessionStorage.setItem("name", name);
+        if(sessionStorage.getItem("name") == null || sessionStorage.getItem("name") == "null"){
+            sessionStorage.removeItem("name");
+            window.location.href = "../chooseCharacter";
         } else {
             name = sessionStorage.getItem("name");
         }
