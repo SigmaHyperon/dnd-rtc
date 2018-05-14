@@ -85,7 +85,7 @@ var gui = {
                     "</div>";
         var domMessage = $("div#tabContent div.tab[name=Comms] div#messageList").append(text);
         $("a.button",domMessage).on("click",function(){
-            var recallMessage = new recall($(this).attr("name"),$(this).attr("uid"));
+            var recallMessage = new Recall($(this).attr("name"),$(this).attr("uid"));
             socket.emit("recall",recallMessage);
             //console.log($(this).attr("name"));
         });

@@ -44,9 +44,9 @@ class Message {
 }
 
 class Recall {
-    constructor() {
-        this.characterId = "";
-        this.messageId = "";
+    constructor(charId = "", mesId = "") {
+        this.characterId = charId;
+        this.messageId = mesId;
     }
 }
 
