@@ -51,6 +51,7 @@ var gui = {
         //});
         //$("a.button", contactList).not(".current").remove();
         //$("a.button", contactList).removeClass("current");
+        $("div#tabContent div.tab[name=Comms] div#contactList").children().remove();
         $("div#tabContent div.tab[name=Comms] div#contactList").append(buttons);
         this.initContacts();
     },
