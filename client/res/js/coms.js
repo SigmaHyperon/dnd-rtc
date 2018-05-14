@@ -91,15 +91,18 @@ function connect(url, id){
         gui.updateCharacterList(data);
     });
     socket.on("messages", function(data){
-        for (var mes in data) {
-            if (data.hasOwnProperty(mes)) {
-                if(id == data[mes].sender.id){
-                    gui.showSent(data[mes],socket);
-                } else {
-                    if(data[mes].status != undefined && data[mes].status[id] != undefined && data[mes].status[id] == "recalled"){
-                        gui.showRemoved();
+        if(data.length> 0){
+            gui.clearMessages();
+            for (var mes in data) {
+                if (data.hasOwnProperty(mes)) {
+                    if(id == data[mes].sender.id){
+                        gui.showSent(data[mes],socket);
                     } else {
-                        gui.showMessage(data[mes]);
+                        if(data[mes].status != undefined && data[mes].status[id] != undefined && data[mes].status[id] == "recalled"){
+                            gui.showRemoved();
+                        } else {
+                            gui.showMessage(data[mes]);
+                        }
                     }
                 }
             }

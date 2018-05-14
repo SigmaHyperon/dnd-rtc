@@ -130,4 +130,7 @@ var gui = {
             $("i#connected").css("color", "red").html("signal_wifi_off");
         }
     },
+    clearMessages: function(){
+        $("div#tabContent div.tab[name=Comms] div#messageList").children().remove();
+    },
 }
