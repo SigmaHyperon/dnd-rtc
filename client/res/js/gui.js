@@ -25,26 +25,37 @@ var gui = {
         });
     },
     updateContacts: function(contacts){
-        console.log(contacts);
+        //console.log(contacts);
+        var contactArray = Object.keys(contacts).map(function (key) { return contacts[key]; });
+        contactArray = contactArray.sort(function(a, b){
+            if(a.name < b.name) return -1;
+            if(a.name > b.name) return 1;
+            return 0;
+        });
         var contactList = "div#tabContent div.tab[name=Comms] div#contactList";
         //$("div#tabContent div.tab[name=Comms] div#contactList a.button").remove();
         //$(contacts).each(function(){
-        for (var index in contacts) {
-            if (contacts.hasOwnProperty(index)) {
-                if($("a.button[name="+contacts[index].id+"]", contactList).length == 0){
-                    $("div#tabContent div.tab[name=Comms] div#contactList").append("<a class='button current' name='"+contacts[index].id+"'>"+contacts[index].name+"</a>");
+        //console.log(contactArray);
+        var buttons = [];
+        for (var index in contactArray) {
+            if (contactArray.hasOwnProperty(index)) {
+                if($("a.button[name="+contactArray[index].id+"]", contactList).length == 0){
+                    //$("div#tabContent div.tab[name=Comms] div#contactList").append("<a class='button current' name='"+contactArray[index].id+"'>"+contactArray[index].name+"</a>");
+                    buttons.push("<a class='button character' name='"+contactArray[index].id+"'><img width='50' src='../res/img/classIconsSelected/Icon."+(contactArray[index].icon < 10 ? "0" + contactArray[index].icon : contactArray[index].icon)+ ".png'/><span>" +contactArray[index].name+"</span></a>");
                 } else {
-                    $("a.button[name="+contacts[index].id+"]", contactList).addClass("current");
+                    //$("a.button[name="+contactArray[index].id+"]", contactList).addClass("current");
+                    buttons.push($("a.button[name="+contactArray[index].id+"]", contactList).detach());
                 }
             }
         }
         //});
-        $("a.button", contactList).not(".current").remove();
-        $("a.button", contactList).removeClass("current");
+        //$("a.button", contactList).not(".current").remove();
+        //$("a.button", contactList).removeClass("current");
+        $("div#tabContent div.tab[name=Comms] div#contactList").append(buttons);
         this.initContacts();
     },
     showMessage: function(message){
-        console.log(message);
+        //console.log(message);
         var recipients = [];
         for (var index in message.recipients) {
             if (message.recipients.hasOwnProperty(index)) {

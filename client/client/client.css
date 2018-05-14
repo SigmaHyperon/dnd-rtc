@@ -50,6 +50,7 @@ div#tabHandles {
 }
 a.button {
     display: block;
+    position: relative;
     background: #e3e3e3;
     border: 1px solid #646464;
     padding: 5px;
@@ -71,6 +72,19 @@ a.button.inline {
     float: none;
     width: auto;
     display: inline-block;
+}
+a.button.character {
+    text-align: left;
+}
+a.button img {
+    float: left;
+}
+a.button span{
+    padding: 5px;
+    padding-left: 10px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 div#tabContent{
