@@ -5,35 +5,6 @@
  */
 
 var classes = require("./classes.js");
-class message {
-    constructor(name, text){
-        this.name = name;
-        this.recipients = [];
-        this.text = text;
-    }
-}
-class recall {
-    constructor(name, id){
-        this.target = name;
-        this.id = id;
-    }
-}
-class player {
-    constructor(name, socket){
-        this.name = name;
-        this.socket = socket;
-        this.status = {};
-        this.time = {
-            sent: null,
-            received: {}
-        };
-        //console.log("===========================");
-        //console.log("new player: "+name+" "+isDm);
-        //console.log("total dms: "+ ((isDm) ? 1 : ((dm)? 1 : 0)));
-        //console.log(Object.keys(players));
-        //console.log("total players: "+(Object.keys(players).length+1))
-    }
-}
 
 function log(text){
     var d = new Date();
