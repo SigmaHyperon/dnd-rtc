@@ -72,7 +72,8 @@ io.on('connection', function(socket){
             //console.log(data);
             players[data.sender.id].socket.emit("message", data);
             for (var index in data.recipients){
-                players[data.recipients[index].id].socket.emit("message", data);
+                if(players[data.recipients[index].id] != undefined)
+                    players[data.recipients[index].id].socket.emit("message", data);
             }
             db.collection("messages").insertOne(data);
         });
@@ -91,9 +92,6 @@ io.on('connection', function(socket){
         }
 
         io.emit("playerListUpdate", getRedactedPlayers());
-        /*if(Object.keys(players).length == 0){
-            db.collection("messages").deleteMany({});
-        }*/
     });
     socket.on("getCharacters",function(){
         db.collection("characters").find({}).toArray(function(err, result){
