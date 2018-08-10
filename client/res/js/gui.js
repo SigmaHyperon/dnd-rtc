@@ -44,14 +44,17 @@ var gui = {
                     buttons.push("<a class='button character' name='"+contactArray[index].id+"'><img width='50' src='../res/img/classIconsSelected/Icon."+(contactArray[index].icon < 10 ? "0" + contactArray[index].icon : contactArray[index].icon)+ ".png'/><span>" +contactArray[index].name+"</span></a>");
                 } else {
                     //$("a.button[name="+contactArray[index].id+"]", contactList).addClass("current");
-                    buttons.push($("a.button[name="+contactArray[index].id+"]", contactList).detach());
+                    buttons.push($("a.button[name="+contactArray[index].id+"]", contactList).removeClass("offline").detach());
                 }
             }
         }
+        var offlineContacts = $("a.button.character", contactList).detach();
+        offlineContacts.addClass("offline");
+        buttons = [...buttons, ...offlineContacts];
         //});
         //$("a.button", contactList).not(".current").remove();
         //$("a.button", contactList).removeClass("current");
-        $("div#tabContent div.tab[name=Comms] div#contactList").children().remove();
+        //$("div#tabContent div.tab[name=Comms] div#contactList").children().remove();
         $("div#tabContent div.tab[name=Comms] div#contactList").append(buttons);
         this.initContacts();
     },

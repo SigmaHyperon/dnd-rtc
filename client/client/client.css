@@ -178,10 +178,7 @@ a.button.active {
 
 }
 a.button.character {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
+
 }
 
 span.text#version {
@@ -287,9 +284,17 @@ div#tabContent div.tab[name=Inventory]{
 div#tabContent div.tab[name=Comms] div#contactList a.button {
     filter: grayscale(50%);
     min-width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
 }
 div#tabContent div.tab[name=Comms] div#contactList a.button.active {
     filter: grayscale(10%);
+}
+div#tabContent div.tab[name=Comms] div#contactList a.button.offline {
+    border: 3px solid #ff7800;
+    border-radius: 3px;
 }
 
 
