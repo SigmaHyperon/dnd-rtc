@@ -1,38 +1,262 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/*
-    Created on : Jul 15, 2017, 2:34:27 PM
-    Author     : anderssn
-*/
+/****************
+* created by:
+****************/
+@import url('https://fonts.googleapis.com/css?family=Merienda|Neucha');
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../res/fonts/iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url(../res/fonts/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
+    url(../res/fonts/iconfont/MaterialIcons-Regular.woff) format('woff'),
+    url(../res/fonts/iconfont/MaterialIcons-Regular.ttf) format('truetype');
+}
+.icon {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
 html, body {
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden
+    font-family: 'Neucha';
+    font-size: 16px;
 }
+
+body{
+   background: url(../res/img/background.jpeg) top fixed;
+   background-size: cover;
+   overflow: hidden;
+}
+
+.wrapper {
+    margin: 10%;
+}
+
+div#tabHandles {
+    width: 100%;
+}
+
+.ribbon-content {
+    display:flex;
+    flex-direction:row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ribbon {
+ position: relative;
+ background: linear-gradient(to bottom, #7e2a06, #69280c);
+ color: #fff;
+}
+.ribbon:before, .ribbon:after {
+ content: "";
+ position: absolute;
+ display: block;
+ bottom: -1em;
+ border: 1.5em solid #7b2d0b;
+ z-index: -1;
+}
+.ribbon:before {
+ left: -2em;
+ border-right-width: 1.5em;
+ border-left-color: transparent;
+}
+.ribbon:after {
+ right: -2em;
+ border-left-width: 1.5em;
+ border-right-color: transparent;
+}
+.ribbon .ribbon-content:before, .ribbon .ribbon-content:after {
+ content: "";
+ position: absolute;
+ display: block;
+ border-style: solid;
+ border-color: #501b04 transparent transparent transparent;
+ bottom: -1em;
+}
+.ribbon .ribbon-content:before {
+ left: 0;
+ border-width: 1em 0 0 1em;
+}
+.ribbon .ribbon-content:after {
+ right: 0;
+ border-width: 1em 1em 0 0;
+}
+
+
+
+
+.nav {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+}
+
+.nav-right {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1rem;
+}
+
+.fa:before {
+    filter: grayscale(100%) brightness(120%);
+ background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #e4b14a 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+             radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: initial; /* reset Font Awesome's display:inline-block */
+ }
+
+.nav a.button{
+    background: none;
+    border: none;
+    padding: 0;
+
+}
+
+.nav a.button.active {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.nav a.button.active .fa:before{
+    filter: grayscale(60%) brightness(120%);
+}
+
+.nav a.button:hover{
+    background:none;
+}
+
+.nav a.button i{
+    font-size: 1.5rem;
+}
+
+
+
+
+
+a.button {
+    text-align: center;
+    cursor: pointer;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    font-family: 'Merienda';
+    background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #e4b14a 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+                radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
+
+}
+a.button:hover {
+
+}
+a.button.active {
+
+}
+a.button.character {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
 span.text#version {
-    float: right;
-    padding: 5px;
+    margin-right: 1rem;
+    font-family: monospace;
+    line-height: 20px;
+    margin-top: 4px;
+    color: #cbcbcb;
+}
+div#tabHandles i#connected {
+    margin-right: 1rem;
+}
+
+.row {
+
+    display: flex;
+    flex-direction: row-reverse;
+    background: url(../res/img/chalkboard.jpg) repeat;
+    background-size: cover;
+    max-height: 30rem;
 }
 div#messageList {
-    float: left;
-    padding: 5px;
-    width: 75%;
-    height: 100%;
+    flex:80%;
+    /*display:flex;
+    flex-direction:column;*/
     overflow-y: auto;
 }
 
+div#contactList{
+    flex: 20%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-left: 0.2rem solid;
+    filter: grayscale(50%);
+    border-image: linear-gradient(to bottom, #d8d4c0 0%, #b9b19e 8%, #c1a568 25%, #706a5c 62.5%, #5c564a)1 100%;
+
+}
+
+div#contactList, div#messageList{
+    padding: 1rem;
+}
+
+div#footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: url(../res/img/wood.jpg) repeat;
+    padding: 2rem;
+    min-height: 100px;
+}
+
+textarea#messageInput {
+    resize: none;
+    background: url(../res/img/paper.jpg) no-repeat;
+    width: 80%;
+    height: 100px;
+    font-family: inherit;
+}
+
+div#footer a.button{
+    filter: grayscale(100%) brightness(120%);
+    margin-left: 1.5rem;
+}
+
+div#footer a.button:hover{
+    filter: grayscale(100%) brightness(150%);
+}
+
 div#messageList div.message {
-    border: 1px solid #646464;
-    background: #cecece;
-    padding: 5px;
+    color: #eae7e2;
+    margin: 1rem;
+    padding: 1rem 0.5rem;
     float: left;
     clear: both;
-    margin-bottom: 5px;
 }
 div#messageList div.message.self {
     float: right;
@@ -41,96 +265,88 @@ div#messageList div.message.self {
 div#messageList div.message.removed {
     font-style: italic;
 }
-div#tabHandles {
-    width: 100%;
-    float: left;
-    background: #eeeeee;
-    border-bottom: 1px solid #646464;
-    padding: 5px 0px;
-}
-a.button {
-    display: block;
-    position: relative;
-    background: #e3e3e3;
-    border: 1px solid #646464;
-    padding: 5px;
-    width: 150px;
-    float: left;
-    text-align: center;
-    cursor: pointer;
-    margin-right: 5px;
-}
-a.button:hover {
-    background: #cecece
-}
-a.button.active {
-    border: 1px solid #ffffff;
-    background: #999999;
-    color: #ffffff;
-}
+
+
 a.button.inline {
     float: none;
     width: auto;
     display: inline-block;
 }
-a.button.character {
-    text-align: left;
-}
-a.button img {
-    float: left;
-}
-a.button span{
-    padding: 5px;
-    padding-left: 10px;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-}
 
 div#tabContent{
-    float: left;
-    width: 100%;
-    height: 100%;
+    margin: 0 1rem;
 }
-div#tabContent div.tab{
-    float: left;
-    display:none;
-    height: 100%;
-    width: 100%;
+div#tabContent div.tab[name=Inventory]{
+    padding: 1rem;
+    background: url(../res/img/wood.jpg) repeat;
+    color: #eae7e2;
+    min-height: 20rem;
+
 }
-div#tabContent div.tab[name=Comms] div#contactList{
-    float: right;
-    height: 100%;
-    width: 170px;
-    background: #eeeeee;
-    border-left: 1px solid #646464;
-    padding: 5px 5px 0px 5px;
-}
+
 div#tabContent div.tab[name=Comms] div#contactList a.button {
-    margin-bottom: 5px;
+    filter: grayscale(50%);
+    min-width: 50%;
 }
 div#tabContent div.tab[name=Comms] div#contactList a.button.active {
-    margin-bottom: 3px;
-    border-radius: 3px;
+    filter: grayscale(10%);
 }
-div#tabContent div.tab[name=Comms] div#footer {
-    position: absolute;
-    float: left;
-    clear: left;
-    bottom: 0px;
-    padding: 5px;
-    border-top: 1px solid #646464;
-    width: 100%;
-    background: #eeeeee;
-}
-div#tabContent div.tab[name=Comms] div#footer textarea#messageInput {
-    float: left;
-    clear: left;
-    margin-right: 5px;
-}
-div#tabContent div.tab[name=Comms] div#footer a.button {
-    padding: 8px 7px 7px 7px;
-}
-div#tabHandles i#connected {
-    float: right;
+
+
+
+
+@media screen and (max-width: 700px) {
+    body{
+        overflow: scroll;
+    }
+
+      .ribbon-content, div#footer {
+        flex-direction: column;
+    }
+
+    .nav{
+        padding: unset;
+    }
+
+    .ribbon:before, .ribbon:after {
+        border-width: 1.7rem;
+    }
+
+
+
+    span.text#version {
+        margin-right: unset;
+        margin-bottom: 0.5rem;
+    }
+
+    .nav{
+        justify-content: center;
+    }
+
+    .row {
+        flex-direction: column-reverse;
+    }
+
+    div#contactList{
+        border-left: none;
+    }
+
+    div#contactList:before{
+        content:"";
+        width: 106%;
+        height: 0.2rem;
+        margin-bottom: 1rem;
+        filter: grayscale(50%);
+        background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #e4b14a 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+                radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
+    }
+
+    div#contactList, div#messageList{
+        /* min-height: fit-content; */
+    }
+
+    textarea#messageInput {
+        width:100%;
+    }
+
 }

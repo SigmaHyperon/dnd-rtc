@@ -104,8 +104,8 @@ var gui = {
         $("div#tabContent div.tab[name=Comms] div#messageList").scrollTop($("div#tabContent div.tab[name=Comms] div#messageList").prop('scrollHeight'));
     },
     updateMessageList: function(){
-        $("div#tabContent div.tab[name=Comms] div#messageList").css("width",$(window).width()-192+"px");
-        $("div#tabContent div.tab[name=Comms] div#messageList").css("height",$(window).height()-99+"px");
+        //$("div#tabContent div.tab[name=Comms] div#messageList").css("width",$(window).width()-192+"px");
+        //$("div#tabContent div.tab[name=Comms] div#messageList").css("height",$(window).height()-99+"px");
         $("div#tabContent div.tab[name=Comms] div#messageList").scrollTop($("div#tabContent div.tab[name=Comms] div#messageList").prop('scrollHeight'));
     },
     updateCharacterList: function(characters){
