@@ -300,7 +300,9 @@ div#tabContent div.tab[name=Comms] div#contactList a.button.offline img{
 
 
 @media screen and (max-width: 700px) {
-
+    body {
+        overflow: auto;
+    }
       .ribbon-content, div#footer {
         flex-direction: column;
     }
