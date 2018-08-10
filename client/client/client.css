@@ -292,9 +292,8 @@ div#tabContent div.tab[name=Comms] div#contactList a.button {
 div#tabContent div.tab[name=Comms] div#contactList a.button.active {
     filter: grayscale(10%);
 }
-div#tabContent div.tab[name=Comms] div#contactList a.button.offline {
-    border: 3px solid #ff7800;
-    border-radius: 3px;
+div#tabContent div.tab[name=Comms] div#contactList a.button.offline img{
+    filter: blur(3px);
 }
 
 
