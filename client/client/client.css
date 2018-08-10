@@ -296,9 +296,6 @@ div#tabContent div.tab[name=Comms] div#contactList a.button.active {
 
 
 @media screen and (max-width: 700px) {
-    body{
-        overflow: scroll;
-    }
 
       .ribbon-content, div#footer {
         flex-direction: column;
@@ -312,8 +309,6 @@ div#tabContent div.tab[name=Comms] div#contactList a.button.active {
         border-width: 1.7rem;
     }
 
-
-
     span.text#version {
         margin-right: unset;
         margin-bottom: 0.5rem;
@@ -325,6 +320,7 @@ div#tabContent div.tab[name=Comms] div#contactList a.button.active {
 
     .row {
         flex-direction: column-reverse;
+        max-height:  unset;
     }
 
     div#contactList{
@@ -341,8 +337,8 @@ div#tabContent div.tab[name=Comms] div#contactList a.button.active {
                 radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
     }
 
-    div#contactList, div#messageList{
-        /* min-height: fit-content; */
+    div#messageList{
+        max-height: 20rem;
     }
 
     textarea#messageInput {
