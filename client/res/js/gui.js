@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+var d20 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
 
 var gui = {
     init : function(){
         this.initTabs();
         this.initContacts();
         this.updateMessageList();
+        this.initStatistics();
         $(window).on("resize",gui.updateMessageList);
     },
     initTabs: function(){
@@ -23,6 +25,48 @@ var gui = {
         $("div#tabContent div.tab[name=Comms] div#contactList a.button").off("click").on("click", function(){
             $(this).toggleClass("active");
         });
+    },
+    updateNumpad: function(){
+        $("div#tabContent div.tab[name=Statistics] div#numpad a.button.number").each(function(){
+            if(!d20.includes(parseInt($("div#tabContent div.tab[name=Statistics] div#value").text() + $(this).attr("value")))){
+                $(this).addClass("disabled");
+            } else {
+                $(this).removeClass("disabled");
+            }
+        });
+        if(!d20.includes(parseInt($("div#tabContent div.tab[name=Statistics] div#value").text()))){
+            $("div#tabContent div.tab[name=Statistics] div#numpad a.button#send").addClass("disabled");
+        } else {
+            $("div#tabContent div.tab[name=Statistics] div#numpad a.button#send").removeClass("disabled");
+        }
+        if($("div#tabContent div.tab[name=Statistics] div#value").text().trim() == ""){
+            $("div#tabContent div.tab[name=Statistics] div#numpad a.button#reset").addClass("disabled");
+        } else {
+            $("div#tabContent div.tab[name=Statistics] div#numpad a.button#reset").removeClass("disabled");
+        }
+    },
+    initStatistics: function(socket){
+        $("div#tabContent div.tab[name=Statistics] div#numpad a.button.number").on("click", function(){
+            if(!$(this).hasClass("disabled")){
+                var text = $("div#tabContent div.tab[name=Statistics] div#value").text() + $(this).attr("value");
+                $("div#tabContent div.tab[name=Statistics] div#value").text(text);
+                gui.updateNumpad();
+            }
+        });
+        $("div#tabContent div.tab[name=Statistics] div#numpad a.button#reset").on("click",function(){
+            $("div#tabContent div.tab[name=Statistics] div#value").text("");
+            gui.updateNumpad();
+        });
+        $("div#tabContent div.tab[name=Statistics] div#numpad a.button#send").on("click", function(){
+            if(!$(this).hasClass("disabled")){
+                var val = $("div#tabContent div.tab[name=Statistics] div#value").text();
+                if(socket)
+                    socket.emit("stat", val);
+                $("div#tabContent div.tab[name=Statistics] div#value").text("");
+                gui.updateNumpad();
+            }
+        });
+        gui.updateNumpad();
     },
     updateContacts: function(contacts){
         //console.log(contacts);
