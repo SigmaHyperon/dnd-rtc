@@ -100,7 +100,16 @@ io.on('connection', function(socket){
         });
     });
     socket.on("createCharacter", function(data){
-        db.collection("characters").insertOne(data);
+        var id = db.collection("characters").insertOne(data);
+        db.collection("characters").update({_id: id.insertedId}, {stats: {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0, 19: 0, 20:0}});
+    });
+    socket.on("stat", function(data){
+        console.log("stat collected: "+data);
+        var subquery = {};
+        subquery["stats."+data] = 1;
+        console.log(subquery);
+        db.collection("characters").update({id: me.id}, {$inc: subquery});
+        //Error: on entering 4 mongo crashes
     });
 });
 io.listen(config.nodePort);
