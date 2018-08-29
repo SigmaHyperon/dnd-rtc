@@ -54,6 +54,7 @@ function connect(url, id){
         }
         sock = socket;
         gui.setConnectedStatus(true);
+        gui.initStatistics(socket);
     });
     socket.on('message', function(data){
         console.log("message from: "+data.name+": "+data.text);
