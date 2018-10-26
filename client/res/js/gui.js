@@ -10,7 +10,6 @@ var gui = {
         this.initTabs();
         this.initContacts();
         this.updateMessageList();
-        this.initStatistics();
         $(window).on("resize",gui.updateMessageList);
     },
     initTabs: function(){
