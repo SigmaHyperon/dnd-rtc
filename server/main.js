@@ -38,7 +38,7 @@ var getRedactedPlayers = function(){
 var server;
 if(config.get("disableSSL") === true){
 
-    app.use(morgan('combined'));
+    //app.use(morgan('combined'));
     app.use('/', express.static('./../client'));
     app.use('/.well-known', express.static('./../.well-known'));
     server = http.createServer(app);
@@ -61,7 +61,7 @@ if(config.get("disableSSL") === true){
     if(config.get("mode") != 'debug'){
         var sslApp = express();
         sslApp.use('/.well-known', express.static('../.well-known'));
-        sslApp.listen(80);
+        sslApp.listen(config.get('port'));
     }
 }
 
@@ -150,4 +150,6 @@ io.on('connection', function(socket){
         //Error: on entering 4 mongo crashes
     });
 });
-server.listen(config.get('port'));
+
+var port = config.get('disableSSL') ? config.get('port') : config.get('ssl.port');
+server.listen(port);

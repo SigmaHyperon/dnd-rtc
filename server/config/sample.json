@@ -5,6 +5,7 @@
     "mode": "debug",
     "ssl": {
         "certPath": "/etc/letsencrypt/live/fullchain.pem",
-        "keyPath": "/etc/letsencrypt/live/privkey.pem"
+        "keyPath": "/etc/letsencrypt/live/privkey.pem",
+        "sslPort": 3001
     }
 }
