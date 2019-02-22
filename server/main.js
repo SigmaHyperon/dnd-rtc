@@ -61,7 +61,9 @@ if(config.get("disableSSL") === true){
     if(config.get("mode") != 'debug'){
         var sslApp = express();
         sslApp.use('/.well-known', express.static('../.well-known'));
-        sslApp.listen(config.get('port'));
+        let port = config.get('port');
+        sslApp.listen(port);
+        console.log(`http listening on port ${port}`);
     }
 }
 
@@ -153,3 +155,4 @@ io.on('connection', function(socket){
 
 var port = config.get('disableSSL') ? config.get('port') : config.get('ssl.port');
 server.listen(port);
+console.log(`${config.get('disableSSL') ? 'http' : 'https'} listening on port ${port}`);
