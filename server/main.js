@@ -61,6 +61,9 @@ if(config.get("disableSSL") === true){
     if(config.get("mode") != 'debug'){
         var sslApp = express();
         sslApp.use('/.well-known', express.static('../.well-known'));
+        sslApp.use('/',(req,res) => {
+            res.redirect('https://' + req.headers.host + req.url);
+        });
         let port = config.get('port');
         sslApp.listen(port);
         console.log(`http listening on port ${port}`);
