@@ -1,0 +1,11 @@
+{
+    "mongoUrl": "mongodb://172.24.0.100/dndtest",
+    "port": 3000,
+    "disableSSL": false,
+    "mode": "debug",
+    "ssl": {
+        "certPath": "/etc/letsencrypt/live/fullchain.pem",
+        "keyPath": "/etc/letsencrypt/live/privkey.pem",
+        "port": 3001
+    }
+}

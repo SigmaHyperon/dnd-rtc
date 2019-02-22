@@ -51,7 +51,7 @@ body{
 }
 
 .wrapper {
-    margin: 10%;
+    margin: 5% 10%;
 }
 
 div#tabHandles {
@@ -113,7 +113,7 @@ div#tabHandles {
     flex-direction: row;
     align-items: center;
     width: 100%;
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 .nav-right {
@@ -123,7 +123,7 @@ div#tabHandles {
     padding: 1rem;
 }
 
-.fa:before {
+.fa:before, .fas:before {
     filter: grayscale(100%) brightness(120%);
  background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #e4b14a 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
              radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
@@ -136,7 +136,6 @@ div#tabHandles {
     background: none;
     border: none;
     padding: 0;
-
 }
 
 .nav a.button.active {
@@ -145,7 +144,7 @@ div#tabHandles {
     padding: 0;
 }
 
-.nav a.button.active .fa:before{
+.nav a.button.active .fa:before, .nav a.button.active .fas:before{
     filter: grayscale(60%) brightness(120%);
 }
 
@@ -154,7 +153,7 @@ div#tabHandles {
 }
 
 .nav a.button i{
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 
 
@@ -296,17 +295,71 @@ div#tabContent div.tab[name=Comms] div#contactList a.button.offline img{
     filter: blur(3px);
 }
 
+div#tabContent div.tab[name=Statistics] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    background: url(../res/img/wood.jpg) repeat;
+    color: #eae7e2;
+    min-height: 20rem;
+
+}
+div#tabContent div.tab[name=Statistics] div#value {
+    width: 15rem;
+    height: 4rem;
+    padding: 0rem;
+    padding-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 0px 20px 10px rgba(255,255,255,0.6);
+    font-size: 4rem;
+}
+div#tabContent div.tab[name=Statistics] div#numpad {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap-reverse;
+    padding: 0.5rem;
+    width: 15rem;
+}
+div#tabContent div.tab[name=Statistics] div#numpad a.button{
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+div#tabContent div.tab[name=Statistics] div#numpad a.button.disabled {
+    filter: grayscale(100%);
+    color: transparent;
+}
+div#tabContent div.tab[name=Statistics] div#numpad a.button.number {
+    font-size: 1.5rem;
+}
+
 
 
 
 @media screen and (max-width: 700px) {
-
+    body {
+        overflow: auto;
+    }
       .ribbon-content, div#footer {
         flex-direction: column;
     }
 
     .nav{
         padding: unset;
+        justify-content: center;
+    }
+    .nav i {
+        font-size: 2.5rem;
+    }
+    .nav-right {
+        padding: 0rem;
+        padding-bottom: 0.5rem;
     }
 
     .ribbon:before, .ribbon:after {
@@ -315,13 +368,7 @@ div#tabContent div.tab[name=Comms] div#contactList a.button.offline img{
 
     span.text#version {
         margin-right: unset;
-        margin-bottom: 0.5rem;
     }
-
-    .nav{
-        justify-content: center;
-    }
-
     .row {
         flex-direction: column-reverse;
         max-height:  unset;

@@ -45,7 +45,8 @@ function emit(key, data){
 }
 function connect(url, id){
     //'http://sigmahyperon.nsupdate.info:3000'
-    var socket = io(url);
+    //var socket = io(url);
+    var socket = io();
     socket.on('connect', function(){
         if(id != undefined){
             socket.emit("join_pc", id);
@@ -54,6 +55,7 @@ function connect(url, id){
         }
         sock = socket;
         gui.setConnectedStatus(true);
+        gui.initStatistics(socket);
     });
     socket.on('message', function(data){
         console.log("message from: "+data.name+": "+data.text);
