@@ -115,6 +115,7 @@ function connect(url, id){
         //name,nl2br($("div#tabContent div.tab[name=Comms] textarea#messageInput").val())
         cMessage.sender = id;
         cMessage.text = $("div#tabContent div.tab[name=Comms] textarea#messageInput").val();
+        cMessage.text = cMessage.text.replace(/(\n)+/gi, '\n');
         $("div#tabContent div.tab[name=Comms] div#contactList a.button.active").each(function(){
             cMessage.recipients.push($(this).attr("name"));
         });

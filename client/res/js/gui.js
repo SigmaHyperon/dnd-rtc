@@ -104,18 +104,18 @@ var gui = {
     showMessage: function(message){
         //console.log(message);
         var recipients = [];
-        for (var index in message.recipients) {
+        /*for (var index in message.recipients) {
             if (message.recipients.hasOwnProperty(index)) {
                 recipients.push(message.recipients[index].name);
             }
-        }
-        var text = "<div class='message' uid='"+message.id+"'>"+
+        }*/
+        var text = "<div class='message' uid='"+formatOutput(message.id)+"' recipients='" + formatOutput(message.recipients.map(v=>v.id).join(", ")) + "'>"+
                         "<div class='header'>"+
-                            "<b>From:</b> "+message.sender.name+"<br>"+
-                            "<b>To:</b> "+ recipients.join(", ") +
+                            "<b>From:</b> "+formatOutput(message.sender.name)+"<br>"+
+                            "<b>To:</b> "+ formatOutput(message.recipients.map(v=>v.name).join(", ")) +
                         "</div>"+
                         "<div class='body'>"+
-                            message.text+
+                            formatOutput(message.text)+
                         "</div>"+
                     "</div>";
         $("div#tabContent div.tab[name=Comms] div#messageList").append(text);
