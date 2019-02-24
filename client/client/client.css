@@ -250,7 +250,7 @@ div#footer a.button:hover{
 div#messageList div.message {
     color: #eae7e2;
     margin: 1rem;
-    padding: 1rem 0.5rem;
+    /*padding: 1rem 0.5rem;*/
     float: left;
     clear: both;
 }
