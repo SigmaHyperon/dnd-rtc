@@ -77,8 +77,8 @@ io.on('connection', function(socket){
         //me = new player(name, socket);
         me = new classes.character();
         db.collection("characters").find({id: characterId}).toArray(function(err, result){
-            console.log(err);
-            console.log(result);
+            //console.log(err);
+            //console.log(result);
             me.load(result[0]);
             log("player "+me.name+" has connected");
             me.socket = socket;
