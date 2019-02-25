@@ -170,6 +170,10 @@ a.button {
                 radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
 
 }
+a.button.revoke {
+    margin: 0px;
+    padding: 0.2rem 0.5rem;
+}
 a.button:hover {
 
 }
@@ -248,8 +252,8 @@ div#footer a.button:hover{
 }
 
 div#messageList div.message {
-    color: #eae7e2;
-    margin: 1rem;
+    /*color: #eae7e2;*/
+    margin: 0.5rem;
     /*padding: 1rem 0.5rem;*/
     float: left;
     clear: both;
@@ -260,6 +264,9 @@ div#messageList div.message.self {
 }
 div#messageList div.message.removed {
     font-style: italic;
+}
+div#messageList div.message.hidden {
+    display: none;
 }
 
 

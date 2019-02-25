@@ -109,7 +109,7 @@ var gui = {
                 recipients.push(message.recipients[index].name);
             }
         }*/
-        var text = "<div class='message' uid='"+formatOutput(message.id)+"' recipients='" + formatOutput(message.recipients.map(v=>v.id).join(", ")) + "'>"+
+        var text = "<div class='message talk-bubble tri-right round left-top' uid='"+formatOutput(message.id)+"' concerning='" + formatOutput(message.recipients.map(v=>v.id).join(" ")) + "'>"+
                         "<div class='header'>"+
                             "<b>From:</b> "+formatOutput(message.sender.name)+"<br>"+
                             "<b>To:</b> "+ formatOutput(message.recipients.map(v=>v.name).join(", ")) +
@@ -131,9 +131,9 @@ var gui = {
     showSent: function(message,socket){
         var recipients = [];
         for (var id in message.recipients){
-            recipients.push(formatOutput(message.recipients[id].name)+" <a class='button inline' name='"+message.recipients[id].id+"' uid='"+message.id+"'>revoke</a>");
+            recipients.push(formatOutput(message.recipients[id].name)+" <a class='button inline revoke' name='"+message.recipients[id].id+"' uid='"+message.id+"'>revoke</a>");
         }
-        var text = "<div class='message self'>"+
+        var text = "<div class='message self talk-bubble tri-right round right-top' concerning='"+message.recipients.map(v=>v.id).join(' ')+"'>"+
                         "<div class='header'>"+
                             "<b>Sent to:</b> "+ recipients.join(", ") +
                         "</div>"+
