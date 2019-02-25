@@ -119,26 +119,26 @@ var gui = {
                         "</div>"+
                     "</div>";
         $("div#tabContent div.tab[name=Comms] div#messageList").append(text);
-        $("div#tabContent div.tab[name=Comms] div#messageList").scrollTop($("div#tabContent div.tab[name=Comms] div#messageList").prop('scrollHeight'));
+        this.updateMessageList();
     },
     removeMessage: function(uid){
         $("div#tabContent div.tab[name=Comms] div#messageList div.message[uid='"+uid+"']").replaceWith("<div class='message removed'>removed</div>");
     },
     showRemoved: function(){
         $("div#tabContent div.tab[name=Comms] div#messageList").append("<div class='message removed'>removed</div>");
-        $("div#tabContent div.tab[name=Comms] div#messageList").scrollTop($("div#tabContent div.tab[name=Comms] div#messageList").prop('scrollHeight'));
+        this.updateMessageList();
     },
     showSent: function(message,socket){
         var recipients = [];
         for (var id in message.recipients){
-            recipients.push(message.recipients[id].name+" <a class='button inline' name='"+message.recipients[id].id+"' uid='"+message.id+"'>revoke</a>");
+            recipients.push(formatOutput(message.recipients[id].name)+" <a class='button inline' name='"+message.recipients[id].id+"' uid='"+message.id+"'>revoke</a>");
         }
         var text = "<div class='message self'>"+
                         "<div class='header'>"+
                             "<b>Sent to:</b> "+ recipients.join(", ") +
                         "</div>"+
                         "<div class='body'>"+
-                            message.text+
+                            formatOutput(message.text)+
                         "</div>"+
                     "</div>";
         var domMessage = $("div#tabContent div.tab[name=Comms] div#messageList").append(text);
