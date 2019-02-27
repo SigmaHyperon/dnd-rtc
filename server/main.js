@@ -10,17 +10,15 @@ function log(text){
     var d = new Date();
     console.log(`${d.toLocaleTimeString()}# ${text}`);
 }
+const express = require('express');
 var config = require("config");
 var MongoClient = require('mongodb').MongoClient;
 var db = null;
-MongoClient.connect(config.get('mongoUrl'), function(err, dbl){
+MongoClient.connect(config.get('mongodb.url'), function(err, dbl){
     if (err)
         throw err;
     db = dbl;
 });
-
-const express = require('express');
-var app = express();
 
 var players = {};
 var getRedactedPlayers = function(){
@@ -32,43 +30,8 @@ var getRedactedPlayers = function(){
     }
     return redPlayers;
 }
-var server;
-if(config.get("disableSSL") === true){
 
-    app.use('/', express.static('./../client'));
-    app.use('/.well-known', express.static('./../.well-known'));
-    server = require('http').createServer(app);
-} else {
-    const fs = require('fs');
-    const https = require('https');
-
-    let keyPath = (config.has('ssl.keyPath')) ? config.get('ssl.keyPath') : "/etc/letsencrypt/live/privkey.pem";
-    let certPath = (config.has('ssl.certPath')) ? config.get('ssl.certPath') : "/etc/letsencrypt/live/fullchain.pem";
-
-    let privateKey = fs.readFileSync(keyPath);
-    let certificate = fs.readFileSync(certPath);
-
-    log(`loaded pKey from ${keyPath}`);
-    log(`loaded cert from ${certPath}`);
-
-    let credentials = {key: privateKey, cert: certificate};
-
-    server = https.createServer(credentials, app);
-    app.use('/', express.static('../client'));
-
-    if(config.get("mode") != 'debug'){
-        var sslApp = express();
-        sslApp.use('/.well-known', express.static('../.well-known'));
-        sslApp.use('/',(req,res) => {
-            res.redirect('https://' + req.headers.host + req.url);
-        });
-        let port = config.get('port');
-        sslApp.listen(port);
-        log(`http listening on port ${port}`);
-    }
-}
-
-var io = require('socket.io')(server);
+var io = require('socket.io')();
 io.on('connection', function(socket){
     var me = null;
     socket.on("join_pc",function(characterId){
@@ -137,7 +100,7 @@ io.on('connection', function(socket){
     socket.on("stat", function(data){
         console.log("stat collected: "+data);
         var subquery = {};
-        subquery["stats.d"+data] = 1;
+        subquery[`stats.d${data}`] = 1;
         console.log(subquery);
         db.collection("characters").update({id: me.id}, {$inc: subquery}, function(err, res){
             if(err)
@@ -147,6 +110,57 @@ io.on('connection', function(socket){
     });
 });
 
-var port = config.get('disableSSL') ? config.get('port') : config.get('ssl.port');
-server.listen(port);
-log(`${config.get('disableSSL') ? 'http' : 'https'} listening on port ${port}`);
+function createApp(conf){
+    const app = express();
+    if(conf.bindApp === true){
+        app.use('/', express.static('./../client'));
+    }
+    if(conf.bindLetsEncrypt === true){
+        app.use('/.well-known', express.static(config.get('letsEncrypt.verificationPath')));
+    }
+    return app;
+}
+function getServiceConfig(prefix){
+    let bindApp = (config.has(`${prefix}.bindApp`) && config.get(`${prefix}.bindApp`) === true);
+    let bindLetsEncrypt = (config.has('letsEncrypt') && config.has('letsEncrypt.enabled') && config.has(`${prefix}.bindLetsEncrypt`) && config.get(`${prefix}.bindLetsEncrypt`) === true && config.get('letEncrypt.enabled') === true);
+    let services = {bindApp, bindLetsEncrypt};
+    let serviceList = Object.entries(services).filter(v=>v[1]).map(v=>v[0]);
+    return {services, serviceList};
+}
+
+if(config.has("http") && config.has("http.enabled") && config.get("http.enabled") === true){
+    const http = require('http');
+    let s = getServiceConfig('http');
+    const app = createApp(s.services);
+    if(s.services.bindApp === true)
+        io.attach(http);
+
+    let port = config.get('http.port');
+    http.createServer(app).listen(port);
+    log(`http listening on port ${port}, bound services: ${s.serviceList}`);
+}
+
+if(config.has("https") && config.has("https.enabled") && config.get("https.enabled") === true){
+    const https = require('https');
+    const fs = require('fs');
+
+    let keyPath = (config.has('https.keyPath')) ? config.get('https.keyPath') : "/etc/letsencrypt/live/privkey.pem";
+    let certPath = (config.has('https.certPath')) ? config.get('https.certPath') : "/etc/letsencrypt/live/fullchain.pem";
+
+    let privateKey = fs.readFileSync(keyPath);
+    let certificate = fs.readFileSync(certPath);
+
+    log(`loaded pKey from ${keyPath}`);
+    log(`loaded cert from ${certPath}`);
+
+    let credentials = {key: privateKey, cert: certificate};
+
+    let s = getServiceConfig('https');
+    const app = createApp(s.services);
+    if(s.services.bindApp === true)
+        io.attach(https);
+
+    let port = config.get('https.port');
+    https.createServer(credentials, app).listen(port);
+    log(`https listening on port ${port}, bound services: ${s.serviceList}`);
+}
