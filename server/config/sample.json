@@ -1,11 +1,23 @@
 {
-    "mongoUrl": "mongodb://172.24.0.100/dndtest",
-    "port": 3000,
-    "disableSSL": false,
-    "mode": "debug",
-    "ssl": {
+    "mongodb": {
+        "url": "mongodb://172.24.0.100/dndtest"
+    },
+    "http": {
+        "enabled": true,
+        "bindApp": false,
+        "bindLetsEncrypt": true,
+        "port": 3000
+    },
+    "https": {
+        "enabled": true,
+        "bindApp": true,
+        "bindLetsEncrypt": false,
         "certPath": "/etc/letsencrypt/live/fullchain.pem",
         "keyPath": "/etc/letsencrypt/live/privkey.pem",
         "port": 3001
+    },
+    "letsEncrypt": {
+        "enabled": true,
+        "verificationPath": "./../.well-known"
     }
 }

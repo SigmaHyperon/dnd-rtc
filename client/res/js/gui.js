@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var d20 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+var d20 = [...Array(20).keys()].map(v=>v+1); //die faces 1-20
 
 var gui = {
     init : function(){
@@ -104,41 +104,48 @@ var gui = {
     showMessage: function(message){
         //console.log(message);
         var recipients = [];
-        for (var index in message.recipients) {
+        /*for (var index in message.recipients) {
             if (message.recipients.hasOwnProperty(index)) {
                 recipients.push(message.recipients[index].name);
             }
-        }
-        var text = "<div class='message' uid='"+message.id+"'>"+
+        }*/
+        var text = "<div class='message talk-bubble tri-right round left-top' uid='"+formatOutput(message.id)+"' concerning='" + formatOutput(message.recipients.map(v=>v.id).join(" ")) + "'>"+
                         "<div class='header'>"+
-                            "<b>From:</b> "+message.sender.name+"<br>"+
-                            "<b>To:</b> "+ recipients.join(", ") +
+                            "<b>From:</b> "+formatOutput(message.sender.name)+"<br>"+
+                            "<b>To:</b> "+ formatOutput(message.recipients.map(v=>v.name).join(", ")) +
                         "</div>"+
                         "<div class='body'>"+
-                            message.text+
+                            formatOutput(message.text)+
                         "</div>"+
                     "</div>";
         $("div#tabContent div.tab[name=Comms] div#messageList").append(text);
-        $("div#tabContent div.tab[name=Comms] div#messageList").scrollTop($("div#tabContent div.tab[name=Comms] div#messageList").prop('scrollHeight'));
+        this.updateMessageList();
     },
     removeMessage: function(uid){
         $("div#tabContent div.tab[name=Comms] div#messageList div.message[uid='"+uid+"']").replaceWith("<div class='message removed'>removed</div>");
     },
+    removeMessageRecall: function(data){
+        let {characterId, messageId} = data;
+        $("div#tabContent div.tab[name=Comms] div#messageList div.message.self[uid='"+uid+"']").replaceWith("<div class='message removed'>removed</div>");
+    },
     showRemoved: function(){
         $("div#tabContent div.tab[name=Comms] div#messageList").append("<div class='message removed'>removed</div>");
-        $("div#tabContent div.tab[name=Comms] div#messageList").scrollTop($("div#tabContent div.tab[name=Comms] div#messageList").prop('scrollHeight'));
+        this.updateMessageList();
     },
     showSent: function(message,socket){
         var recipients = [];
         for (var id in message.recipients){
-            recipients.push(message.recipients[id].name+" <a class='button inline' name='"+message.recipients[id].id+"' uid='"+message.id+"'>revoke</a>");
+            let sUser = message.recipients[id];
+            let status = (message.status[sUser.id] == 'recalled') ? 'revoked' : 'revoke';
+            let buttonDom = `<a class="button inline ${status}" name="${sUser.id}" uid="${message.id}">${status}</a>`
+            recipients.push(formatOutput(sUser.name)+buttonDom);
         }
-        var text = "<div class='message self'>"+
+        var text = "<div class='message self talk-bubble tri-right round right-top' concerning='"+message.recipients.map(v=>v.id).join(' ')+"'>"+
                         "<div class='header'>"+
                             "<b>Sent to:</b> "+ recipients.join(", ") +
                         "</div>"+
                         "<div class='body'>"+
-                            message.text+
+                            formatOutput(message.text)+
                         "</div>"+
                     "</div>";
         var domMessage = $("div#tabContent div.tab[name=Comms] div#messageList").append(text);
