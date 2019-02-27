@@ -85,6 +85,9 @@ function connect(url, id){
     socket.on("recall",function(data){
         gui.removeMessage(data.messageId);
     });
+    socket.on("recalled",function(data){
+        gui.removeMessageRecall(data);
+    });
     socket.on('disconnect', function(){
         sock = null;
         gui.setConnectedStatus(false);

@@ -124,6 +124,10 @@ var gui = {
     removeMessage: function(uid){
         $("div#tabContent div.tab[name=Comms] div#messageList div.message[uid='"+uid+"']").replaceWith("<div class='message removed'>removed</div>");
     },
+    removeMessageRecall: function(data){
+        let {characterId, messageId} = data;
+        $("div#tabContent div.tab[name=Comms] div#messageList div.message.self[uid='"+uid+"']").replaceWith("<div class='message removed'>removed</div>");
+    },
     showRemoved: function(){
         $("div#tabContent div.tab[name=Comms] div#messageList").append("<div class='message removed'>removed</div>");
         this.updateMessageList();
@@ -131,7 +135,10 @@ var gui = {
     showSent: function(message,socket){
         var recipients = [];
         for (var id in message.recipients){
-            recipients.push(formatOutput(message.recipients[id].name)+" <a class='button inline revoke' name='"+message.recipients[id].id+"' uid='"+message.id+"'>revoke</a>");
+            let sUser = message.recipients[id];
+            let status = (message.status[sUser.id] == 'recalled') ? 'revoked' : 'revoke';
+            let buttonDom = `<a class="button inline ${status}" name="${sUser.id}" uid="${message.id}">${status}</a>`
+            recipients.push(formatOutput(sUser.name)+buttonDom);
         }
         var text = "<div class='message self talk-bubble tri-right round right-top' concerning='"+message.recipients.map(v=>v.id).join(' ')+"'>"+
                         "<div class='header'>"+

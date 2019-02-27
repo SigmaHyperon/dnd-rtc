@@ -120,6 +120,7 @@ io.on('connection', function(socket){
     });
     socket.on("recall",function(data){
         players[data.characterId].socket.emit("recall",data);
+        socket.emit('recalled', data);
         var statusObj = {};
         statusObj["status."+data.characterId] = "recalled";
         db.collection("messages").updateOne({id: data.messageId}, {$set: statusObj});
