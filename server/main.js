@@ -124,7 +124,7 @@ function getServiceConfig(prefix){
     let bindApp = (config.has(`${prefix}.bindApp`) && config.get(`${prefix}.bindApp`) === true);
     let bindLetsEncrypt = (config.has('letsEncrypt') && config.has('letsEncrypt.enabled') && config.has(`${prefix}.bindLetsEncrypt`) && config.get(`${prefix}.bindLetsEncrypt`) === true && config.get('letsEncrypt.enabled') === true);
     let services = {bindApp, bindLetsEncrypt};
-    let serviceList = Object.entries(services).filter(v=>v[1]).map(v=>v[0]);
+    let serviceList = Object.entries(services).filter(v=>v[1]).map(v=>v[0]).map(v=>v.replace('bind', ''));
     return {services, serviceList};
 }
 
@@ -137,7 +137,7 @@ if(config.has('http') && config.has('http.enabled') && config.get('http.enabled'
     let server = http.createServer(app).listen(port);
     if(s.services.bindApp === true)
         io.listen(server);
-        
+
     log(`http listening on port ${port}, bound services: ${s.serviceList}`);
 }
 
