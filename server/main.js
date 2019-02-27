@@ -30,13 +30,11 @@ var getRedactedPlayers = function(){
             redPlayers[id] = players[id].getRedacted();
         }
     }
-    //console.log(redPlayers);
     return redPlayers;
 }
 var server;
 if(config.get("disableSSL") === true){
 
-    //app.use(morgan('combined'));
     app.use('/', express.static('./../client'));
     app.use('/.well-known', express.static('./../.well-known'));
     server = require('http').createServer(app);
@@ -50,7 +48,7 @@ if(config.get("disableSSL") === true){
     let privateKey = fs.readFileSync(keyPath);
     let certificate = fs.readFileSync(certPath);
 
-    log(`loaded pKey from ${keyPath}`)
+    log(`loaded pKey from ${keyPath}`);
     log(`loaded cert from ${certPath}`);
 
     let credentials = {key: privateKey, cert: certificate};
@@ -74,21 +72,16 @@ var io = require('socket.io')(server);
 io.on('connection', function(socket){
     var me = null;
     socket.on("join_pc",function(characterId){
-        //me = new player(name, socket);
         me = new classes.character();
         db.collection("characters").find({id: characterId}).toArray(function(err, result){
-            //console.log(err);
-            //console.log(result);
             me.load(result[0]);
             log(`player ${me.name} has connected`);
             me.socket = socket;
             players[me.id] = me;
-            //console.log(players);
             io.emit("playerListUpdate", getRedactedPlayers());
             db.collection("messages").find({$or: [{"recipients.id": me.id}, {"sender.id": me.id}]}).toArray(function(err, result){
                 if(err)
                     throw err;
-                //console.log(result);
                 socket.emit("messages", result);
             });
         });
@@ -103,13 +96,11 @@ io.on('connection', function(socket){
                 return element.id == sId;
             });
             data.sender.load(c);
-            //console.log(data);
             for (var index in data.recipients) {
                 var s_Id = data.recipients[index];
                 data.recipients[index] = new classes.character();
                 data.recipients[index].load(result.find(function(element){return element.id == s_Id}));
             }
-            //console.log(data);
             players[data.sender.id].socket.emit("message", data);
             for (var index in data.recipients){
                 if(players[data.recipients[index].id] != undefined)
@@ -120,7 +111,7 @@ io.on('connection', function(socket){
     });
     socket.on("recall",function(data){
         if(players[data.characterId])
-        players[data.characterId].socket.emit("recall",data);
+            players[data.characterId].socket.emit("recall",data);
         socket.emit('recalled', data);
         var statusObj = {};
         statusObj["status."+data.characterId] = "recalled";
@@ -132,12 +123,10 @@ io.on('connection', function(socket){
             log("player "+me.name+" has disconnected");
             delete players[me.id];
         }
-
         io.emit("playerListUpdate", getRedactedPlayers());
     });
     socket.on("getCharacters",function(){
         db.collection("characters").find({}).toArray(function(err, result){
-            //console.log(result);
             socket.emit("characterList", result);
         });
     });
