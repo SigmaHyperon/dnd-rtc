@@ -8,7 +8,7 @@ var classes = require("./classes.js");
 
 function log(text){
     var d = new Date();
-    console.log(d.toLocaleTimeString()+"# "+text)
+    console.log(`${d.toLocaleTimeString()}# ${text}`);
 }
 var config = require("config");
 var MongoClient = require('mongodb').MongoClient;
@@ -49,9 +49,8 @@ if(config.get("disableSSL") === true){
     var privateKey = fs.readFileSync( (config.has('ssl.keyPath')) ? config.get('ssl.keyPath') : "/etc/letsencrypt/live/privkey.pem");
     var certificate = fs.readFileSync( (config.has('ssl.certPath')) ? config.get('ssl.certPath') : "/etc/letsencrypt/live/fullchain.pem");
 
-    console.log((config.has('ssl.keyPath')) ? config.get('ssl.keyPath') : "/etc/letsencrypt/live/privkey.pem")
-    console.log(config.get('ssl.keyPath'));
-    console.log(config.get('ssl.certPath'));
+    log(`loaded pKey from ${keyPath}`)
+    log(`loaded cert from ${certPath}`);
 
     var credentials = {key: privateKey, cert: certificate};
 
@@ -66,7 +65,7 @@ if(config.get("disableSSL") === true){
         });
         let port = config.get('port');
         sslApp.listen(port);
-        console.log(`http listening on port ${port}`);
+        log(`http listening on port ${port}`);
     }
 }
 
@@ -80,7 +79,7 @@ io.on('connection', function(socket){
             //console.log(err);
             //console.log(result);
             me.load(result[0]);
-            log("player "+me.name+" has connected");
+            log(`player ${me.name} has connected`);
             me.socket = socket;
             players[me.id] = me;
             //console.log(players);
@@ -160,4 +159,4 @@ io.on('connection', function(socket){
 
 var port = config.get('disableSSL') ? config.get('port') : config.get('ssl.port');
 server.listen(port);
-console.log(`${config.get('disableSSL') ? 'http' : 'https'} listening on port ${port}`);
+log(`${config.get('disableSSL') ? 'http' : 'https'} listening on port ${port}`);
