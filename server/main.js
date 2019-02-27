@@ -119,6 +119,7 @@ io.on('connection', function(socket){
         });
     });
     socket.on("recall",function(data){
+        if(players[data.characterId])
         players[data.characterId].socket.emit("recall",data);
         socket.emit('recalled', data);
         var statusObj = {};
