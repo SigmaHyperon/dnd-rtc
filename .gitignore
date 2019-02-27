@@ -3,3 +3,5 @@ server/package-lock.json
 server/config.js
 server/config/default.json
 client/res/img/classIcons/*
+server/config/*
+.vscode/*
