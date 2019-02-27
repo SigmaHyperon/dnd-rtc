@@ -20,8 +20,6 @@ MongoClient.connect(config.get('mongoUrl'), function(err, dbl){
 });
 
 const express = require('express');
-const http = require('http');
-const morgan = require('morgan');
 var app = express();
 
 var players = {};
@@ -41,18 +39,21 @@ if(config.get("disableSSL") === true){
     //app.use(morgan('combined'));
     app.use('/', express.static('./../client'));
     app.use('/.well-known', express.static('./../.well-known'));
-    server = http.createServer(app);
+    server = require('http').createServer(app);
 } else {
     const fs = require('fs');
     const https = require('https');
 
-    var privateKey = fs.readFileSync( (config.has('ssl.keyPath')) ? config.get('ssl.keyPath') : "/etc/letsencrypt/live/privkey.pem");
-    var certificate = fs.readFileSync( (config.has('ssl.certPath')) ? config.get('ssl.certPath') : "/etc/letsencrypt/live/fullchain.pem");
+    let keyPath = (config.has('ssl.keyPath')) ? config.get('ssl.keyPath') : "/etc/letsencrypt/live/privkey.pem";
+    let certPath = (config.has('ssl.certPath')) ? config.get('ssl.certPath') : "/etc/letsencrypt/live/fullchain.pem";
+
+    let privateKey = fs.readFileSync(keyPath);
+    let certificate = fs.readFileSync(certPath);
 
     log(`loaded pKey from ${keyPath}`)
     log(`loaded cert from ${certPath}`);
 
-    var credentials = {key: privateKey, cert: certificate};
+    let credentials = {key: privateKey, cert: certificate};
 
     server = https.createServer(credentials, app);
     app.use('/', express.static('../client'));
