@@ -132,11 +132,12 @@ if(config.has('http') && config.has('http.enabled') && config.get('http.enabled'
     const http = require('http');
     let s = getServiceConfig('http');
     const app = createApp(s.services);
-    if(s.services.bindApp === true)
-        io.attach(http);
-
+    
     let port = config.get('http.port');
-    http.createServer(app).listen(port);
+    let server = http.createServer(app).listen(port);
+    if(s.services.bindApp === true)
+        io.listen(server);
+        
     log(`http listening on port ${port}, bound services: ${s.serviceList}`);
 }
 
@@ -157,10 +158,11 @@ if(config.has('https') && config.has('https.enabled') && config.get('https.enabl
 
     let s = getServiceConfig('https');
     const app = createApp(s.services);
-    if(s.services.bindApp === true)
-        io.attach(https);
-
+    
     let port = config.get('https.port');
-    https.createServer(credentials, app).listen(port);
+    let server = https.createServer(credentials, app).listen(port);
+    if(s.services.bindApp === true)
+        io.listen(server);
+
     log(`https listening on port ${port}, bound services: ${s.serviceList}`);
 }
