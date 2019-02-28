@@ -21,7 +21,7 @@ $(function(){
         nameInput.val("");
         pwdInput.val("");
     });
-    connect(config.nodeUrl);
+    //connect(config.nodeUrl);
     $("div.button#submit").on("click", function(){
         var name = nameInput.val();
         var nameLower = name.toLowerCase();
@@ -31,10 +31,18 @@ $(function(){
         }
         var pwd = pwdInput.val();
         var icon = imageSelector.val();
-        if(emit("createCharacter",{id: cc_guid(),name: name, password: pwd, icon: icon})){
-            window.location.href = "../chooseCharacter";
-        } else {
-            alert("error");
-        }
+        fetch('/api/v1/createCharacter', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({id: cc_guid(),name: name, password: pwd, icon: icon})
+        }).then((res) => {
+            if(res.status === 200){
+                window.location.href = "../chooseCharacter";
+            } else {
+                alert('error');
+            }
+        });
     });
 });

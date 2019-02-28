@@ -92,9 +92,6 @@ function connect(url, id){
         sock = null;
         gui.setConnectedStatus(false);
     });
-    socket.on("characterList", function(data){
-        gui.updateCharacterList(data);
-    });
     socket.on("messages", function(data){
         if(data.length> 0){
             gui.clearMessages();

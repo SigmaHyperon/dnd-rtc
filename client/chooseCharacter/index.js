@@ -3,5 +3,12 @@ $(function(){
     if(name != null){
         window.location.href = "../client";
     }
-    connect(config.nodeUrl);
+    fetch('/api/v1/getCharacters')
+        .then((res) => {
+            return res.json()
+        })
+        .then((res) => {
+            console.log(res);
+            gui.updateCharacterList(res);
+        })
 });
