@@ -1,4 +1,6 @@
+let tools = require('./tools');
 var players = {};
+var classes = require('./classes.js');
 var getRedactedPlayers = function(){
     var redPlayers = {};
     for (var id in players) {
@@ -16,7 +18,7 @@ function setupChat(db){
 			me = new classes.character();
 			db.collection('characters').find({id: characterId}).toArray(function(err, result){
 				me.load(result[0]);
-				log(`player ${me.name} has connected`);
+				tools.log(`player ${me.name} has connected`);
 				me.socket = socket;
 				players[me.id] = me;
 				io.emit('playerListUpdate', getRedactedPlayers());
@@ -61,7 +63,7 @@ function setupChat(db){
 		socket.on('disconnect',function(){
 			if(me != undefined)
 			{
-				log(`player ${me.name} has disconnected`);
+				tools.log(`player ${me.name} has disconnected`);
 				delete players[me.id];
 			}
 			io.emit('playerListUpdate', getRedactedPlayers());
@@ -76,13 +78,13 @@ function setupChat(db){
 			db.collection('characters').update({_id: id.insertedId}, {stats: {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0, 19: 0, 20:0}});
 		});
 		socket.on('stat', function(data){
-			console.log(`stat collected: ${data}`);
+			console.tools.log(`stat collected: ${data}`);
 			var subquery = {};
 			subquery[`stats.d${data}`] = 1;
-			console.log(subquery);
+			console.tools.log(subquery);
 			db.collection('characters').update({id: me.id}, {$inc: subquery}, function(err, res){
 				if(err)
-					console.log(err);
+					console.tools.log(err);
 			});
 			//Error: on entering 4 mongo crashes
 		});
