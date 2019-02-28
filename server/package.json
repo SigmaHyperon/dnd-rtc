@@ -21,5 +21,8 @@
     "start": "node main.js",
     "dev": "set NODE_ENV=development&& node main.js",
     "prod": "set NODE_ENV=production&& node main.js"
+  },
+  "devDependencies": {
+    "mongo-mock": "^3.4.0"
   }
 }
