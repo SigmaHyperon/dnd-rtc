@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+navigator.serviceWorker.register('/sw.js');
 var sock = null;
 function nl2br(str) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ '<br>' +'$2');
@@ -17,21 +18,13 @@ function guid() {
     s4() + '-' + s4() + s4() + s4();
 }
 function notify(title, options) {
-    if (!("Notification" in window)) {
-      alert("This browser does not support system notifications");
+    Notification.requestPermission(function(result) {
+    if (result === 'granted') {
+        navigator.serviceWorker.ready.then(function(registration) {
+        registration.showNotification(title, options);
+        });
     }
-    else if (Notification.permission === "granted") {
-      // If it's okay let's create a notification
-      var notification = new Notification(title, options);
-    }
-    else if (Notification.permission !== 'denied') {
-      Notification.requestPermission(function (permission) {
-        // If the user accepts, let's create a notification
-        if (permission === "granted") {
-          var notification = new Notification(title, options);
-        }
-      });
-    }
+    });
   }
 class message {
     constructor(name, text){
@@ -84,7 +77,7 @@ function connect(url, id){
             notify('DnD Message', {
                 icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
                 body: `${data.sender.name} says: \n${data.text}`,
-                vibrate: true
+                vibrate: [300, 100, 400]
             });
         }
         

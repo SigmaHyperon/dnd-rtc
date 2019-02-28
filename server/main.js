@@ -15,6 +15,8 @@ function createApp(conf, services){
     const app = express();
     if(conf.bindApp === true){
         app.use('/', express.static('./../client'));
+        //simulate empty worker file for notification service worker -.-
+        app.use('/sw.js', (req, res) => {res.send('')});
         app.use('/api/v1', services.rest);
     }
     if(conf.bindLetsEncrypt === true){
