@@ -16,6 +16,23 @@ function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 }
+function notify(title, options) {
+    if (!("Notification" in window)) {
+      alert("This browser does not support system notifications");
+    }
+    else if (Notification.permission === "granted") {
+      // If it's okay let's create a notification
+      var notification = new Notification(title, options);
+    }
+    else if (Notification.permission !== 'denied') {
+      Notification.requestPermission(function (permission) {
+        // If the user accepts, let's create a notification
+        if (permission === "granted") {
+          var notification = new Notification(title, options);
+        }
+      });
+    }
+  }
 class message {
     constructor(name, text){
         this.id = guid();
@@ -58,18 +75,19 @@ function connect(url, id){
         gui.initStatistics(socket);
     });
     socket.on('message', function(data){
-        console.log("message from: "+data.name+": "+data.text);
+        //console.log("message from: "+data.sender.name+": "+data.text);
         //$("div#tabContent div.tab[name=Comms] div#messageList").append("<div class='message'>"+data.name+" says: "+data.text+"</div>");
         if(id == data.sender.id){
             gui.showSent(data,socket);
         } else {
             gui.showMessage(data);
+            notify('DnD Message', {
+                icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+                body: `${data.sender.name} says: \n${data.text}`,
+                vibrate: true
+            });
         }
-        /*Notifications:
-         * var notification = new Notification('Notification title', {
-            //icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-            body: data.name+" says: "+data.text,
-        });*/
+        
     });
     socket.on('playerListUpdate', function(data){
         //console.log(data);
