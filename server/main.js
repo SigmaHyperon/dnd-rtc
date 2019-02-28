@@ -3,13 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-var classes = require('./classes.js');
-
-function log(text){
-    var d = new Date();
-    console.log(`${d.toLocaleTimeString()}# ${text}`);
-}
+let tools = require('./tools');
 const express = require('express');
 var config = require('config');
 var MongoClient = require('mongodb').MongoClient;
@@ -138,7 +132,7 @@ if(config.has('http') && config.has('http.enabled') && config.get('http.enabled'
     if(s.services.bindApp === true)
         io.listen(server);
 
-    log(`http listening on port ${port}, bound services: ${s.serviceList}`);
+        tools.log(`http listening on port ${port}, bound services: ${s.serviceList}`);
 }
 
 if(config.has('https') && config.has('https.enabled') && config.get('https.enabled') === true){
@@ -151,8 +145,8 @@ if(config.has('https') && config.has('https.enabled') && config.get('https.enabl
     let privateKey = fs.readFileSync(keyPath);
     let certificate = fs.readFileSync(certPath);
 
-    log(`loaded pKey from ${keyPath}`);
-    log(`loaded cert from ${certPath}`);
+        tools.log(`loaded pKey from ${keyPath}`);
+        tools.log(`loaded cert from ${certPath}`);
 
     let credentials = {key: privateKey, cert: certificate};
 
@@ -164,5 +158,5 @@ if(config.has('https') && config.has('https.enabled') && config.get('https.enabl
     if(s.services.bindApp === true)
         io.listen(server);
 
-    log(`https listening on port ${port}, bound services: ${s.serviceList}`);
+        tools.log(`https listening on port ${port}, bound services: ${s.serviceList}`);
 }
