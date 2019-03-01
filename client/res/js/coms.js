@@ -81,7 +81,7 @@ function connect(id){
         } else {
             gui.showMessage(data);
             notify('DnD Message', {
-                icon: './res/img/logo.png',
+                icon: './../res/img/logo.png',
                 body: `${data.sender.name} says: \n${data.text}`,
                 vibrate: [300, 100, 400]
             });
