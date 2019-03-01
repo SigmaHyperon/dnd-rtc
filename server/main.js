@@ -38,6 +38,10 @@ function initServer(db){
         const http = require('http');
         let s = getServiceConfig('http');
         const app = createApp(s.services, {rest});
+        //if app is only bound to https add redirect to http
+        if(config.has('http.bindApp') && config.get('http.bindApp') === false && config.has('https') && config.has('https.enabled') && config.has('https.bindApp') && config.get('https.enabled') === true && config.get('https.bindApp') === true){
+            app.use('/', (req, res) => {res.redirect('https://' + req.headers.host + req.url)});
+        }
         
         let port = config.get('http.port');
         let server = http.createServer(app).listen(port);
