@@ -8,8 +8,6 @@ const express = require('express');
 var config = require('config');
 const isMockMongo = (config.has('mongodb.mock') && config.get('mongodb.mock') === true);
 var MongoClient = isMockMongo ? require('mongo-mock').MongoClient : require('mongodb').MongoClient;
-if(isMockMongo)
-    MongoClient.persist = "mongo.js";
 
 function createApp(conf, services){
     const app = express();
@@ -79,5 +77,5 @@ function initServer(db){
 MongoClient.connect(config.get('mongodb.url'), {}, function(err, db){
     if (err)
         throw err;
-    initServer(db)
+    initServer(db);
 });
