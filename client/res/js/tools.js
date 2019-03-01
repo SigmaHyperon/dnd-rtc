@@ -23,3 +23,10 @@ function formatOutput(text){
     return nl2br(htmlSpecialChars(text));
 }
 
+function getConfig(key){
+    let config = localStorage.getItem("config");
+    if(config == null)
+        return null;
+    config = JSON.parse(config);
+    return config[key];
+}

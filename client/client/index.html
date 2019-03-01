@@ -10,7 +10,6 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="../res/js/classes.js" charset="utf-8"></script>
-        <script src="../res/js/config.js" charset="utf-8"></script>
         <script src="../res/js/version.js" type="text/javascript" charset="utf-8"></script>
         <script src="../res/js/jquery.js" type="text/javascript"></script>
         <script src="../res/js/socket-io.js" type="text/javascript"></script>
@@ -31,7 +30,8 @@ and open the template in the editor.
                     <div class="nav">
                         <a class="button tabHandle" name="Comms"><i class="fa fa-comments"></i></a>
                         <a class="button tabHandle" name="Inventory"><i class="fa fa-suitcase"></i></a>
-                        <a class="button tabHandle" name="Statistics"><i class="fas fa-dice"></i></a>
+                        <!--a class="button tabHandle" name="Statistics"><i class="fas fa-dice"></i></a-->
+                        <a class="button tabHandle" name="Settings"><i class="fa fa-cog"></i></a>
                         <a class="button" name="logout" id="logout"><i class="fa fa-power-off"></i></a>
                     </div>
                     <div class="nav-right">
@@ -100,6 +100,12 @@ and open the template in the editor.
                             9
                         </a>
                     </div>
+                </div>
+                <div class="tab" name="Settings">
+                    <label for="notifications">Enable notifications:</label>
+                    <input type="checkbox" name="notifications" id="notifications"><br>
+                    <label for="remember">Remember me:</label>
+                    <input type="checkbox" name="remember" id="remember">
                 </div>
             </div>
         </div>

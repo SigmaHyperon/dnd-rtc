@@ -10,7 +10,8 @@ var gui = {
         this.initTabs();
         this.initContacts();
         this.updateMessageList();
-        this.initStatistics();
+        //this.initStatistics();
+        this.initSettings();
         $(window).on("resize",gui.updateMessageList);
     },
     initTabs: function(){
@@ -24,6 +25,31 @@ var gui = {
     initContacts: function(){
         $("div#tabContent div.tab[name=Comms] div#contactList a.button").off("click").on("click", function(){
             $(this).toggleClass("active");
+        });
+    },
+    initSettings: function(){
+        let config = localStorage.getItem("config");
+        if(config === null){
+            config = {};
+        } else {
+            config = JSON.parse(config);
+        }
+        for (const key in config) {
+            if (config.hasOwnProperty(key)) {
+                const element = config[key];
+                $(`div.tab[name=Settings] input[name=${key}]`)[0].checked = element;
+            }
+        }
+        $("div.tab[name=Settings] input").on("change", (e) => {
+            let config = localStorage.getItem("config");
+            if(config === null){
+                config = {};
+            } else {
+                config = JSON.parse(config);
+            }
+                
+            config[$(e.target).attr("name")] = $(e.target).is(':checked');
+            localStorage.setItem("config", JSON.stringify(config));
         });
     },
     updateNumpad: function(){
@@ -170,8 +196,9 @@ var gui = {
             '.png" alt="" width="50" height="50"><br>'+char.name+'</div>').prependTo("div.characters").data("character", char);
         }
         $("div.button.character").not("#add").on("click",function(){
-            if(sessionStorage.getItem("name") == null){
-                sessionStorage.setItem("name", $(this).data("character").id);
+            let storage = (getConfig("remember") ? localStorage : sessionStorage);
+            if(storage.getItem("name") == null){
+                storage.setItem("name", $(this).data("character").id);
                 window.location.href = "../client";
             } else {
                 window.location.href = "../client";

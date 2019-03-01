@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-navigator.serviceWorker.register('/sw.js');
+if (window.location.protocol === "https:")
+    navigator.serviceWorker.register('/sw.js');
 var sock = null;
 function nl2br(str) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ '<br>' +'$2');
@@ -18,13 +19,20 @@ function guid() {
     s4() + '-' + s4() + s4() + s4();
 }
 function notify(title, options) {
-    Notification.requestPermission(function(result) {
-    if (result === 'granted') {
-        navigator.serviceWorker.ready.then(function(registration) {
-        registration.showNotification(title, options);
+    if(getConfig("notifications")){
+        Notification.requestPermission(function(result) {
+            if (result === 'granted') {
+                if (window.location.protocol === "https:"){
+                    navigator.serviceWorker.ready.then(function(registration) {
+                    registration.showNotification(title, options);
+                    });
+                } else {
+                    //Notification fallback in case of non-https connection
+                    var notification = new Notification(title, options);
+                }
+            }
         });
     }
-    });
   }
 class message {
     constructor(name, text){
@@ -53,9 +61,7 @@ function emit(key, data){
     sock.emit(key,data);
     return true;
 }
-function connect(url, id){
-    //'http://sigmahyperon.nsupdate.info:3000'
-    //var socket = io(url);
+function connect(id){
     var socket = io();
     socket.on('connect', function(){
         if(id != undefined){

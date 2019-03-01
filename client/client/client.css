@@ -282,12 +282,11 @@ a.button.inline {
 div#tabContent{
     margin: 0 1rem;
 }
-div#tabContent div.tab[name=Inventory]{
+div#tabContent div.tab[name=Inventory], div#tabContent div.tab[name=Settings]{
     padding: 1rem;
     background: url(../res/img/wood.jpg) repeat;
     color: #eae7e2;
     min-height: 20rem;
-
 }
 
 div#tabContent div.tab[name=Comms] div#contactList a.button {

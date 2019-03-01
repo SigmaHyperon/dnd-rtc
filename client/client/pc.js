@@ -8,36 +8,27 @@
 function init(){
     $("span.text#version").html(version);
     var name;
-    var url;
+    let storage = (getConfig("remember") ? localStorage : sessionStorage);
     if(!isDebugMode()){
-        if(sessionStorage.getItem("name") == null || sessionStorage.getItem("name") == "null"){
-            sessionStorage.removeItem("name");
+        if(storage.getItem("name") == null || storage.getItem("name") == "null"){
+            storage.removeItem("name");
             window.location.href = "../chooseCharacter";
         } else {
-            name = sessionStorage.getItem("name");
+            name = storage.getItem("name");
         }
-        url = config.nodeUrl;
     } else {
-        if(sessionStorage.getItem("name") == null){
+        if(storage.getItem("name") == null){
             name = "test"+s4();
-            sessionStorage.setItem("name", name);
+            storage.setItem("name", name);
         } else {
-            name = sessionStorage.getItem("name");
-        }
-        if(sessionStorage.getItem("url") == null){
-            var p = prompt("Enter url:");
-            url = (p == "")? config.nodeUrl : "http://"+p+":3000";
-            sessionStorage.setItem("url", url);
-        } else {
-            url = sessionStorage.getItem("url");
+            name = storage.getItem("name");
         }
     }
 
-    connect(url, name, false);
+    connect(name);
     gui.init();
     $("div#tabHandles a.button#logout").on("click", function(){
-        sessionStorage.removeItem("name");
-        sessionStorage.removeItem("url");
+        storage.removeItem("name");
         window.location.href = "../chooseCharacter";
     })
     $("div#tabHandles a.button[name=Comms]").click();

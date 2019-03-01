@@ -1,5 +1,6 @@
 $(function(){
-    var name = sessionStorage.getItem("name");
+    let storage = (getConfig("remember") ? localStorage : sessionStorage);
+    var name = storage.getItem("name");
     if(name != null){
         window.location.href = "../client";
     }
