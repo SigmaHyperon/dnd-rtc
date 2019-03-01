@@ -297,8 +297,15 @@ div#tabContent div.tab[name=Comms] div#contactList a.button {
     align-items: center;
     justify-content: space-around;
 }
+div#tabContent div.tab[name=Comms] div#contactList a.button img {
+    border: 3px solid transparent;
+    border-radius: 7px;
+}
 div#tabContent div.tab[name=Comms] div#contactList a.button.active {
     filter: grayscale(10%);
+}
+div#tabContent div.tab[name=Comms] div#contactList a.button.active img {
+    border: 3px solid red;
 }
 div#tabContent div.tab[name=Comms] div#contactList a.button.offline img{
     filter: blur(3px);
