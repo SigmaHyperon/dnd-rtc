@@ -20,7 +20,7 @@ function nl2br(text){
 }
 
 function formatOutput(text){
-    return nl2br(htmlSpecialChars(text));
+    return wrapURLs(nl2br(htmlSpecialChars(text)));
 }
 
 function getConfig(key){
@@ -30,3 +30,12 @@ function getConfig(key){
     config = JSON.parse(config);
     return config[key];
 }
+var wrapURLs = function (text) {
+    var url_pattern = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/ig;
+    
+    return text.replace(url_pattern, function (url) {
+      var protocol_pattern = /^(?:(?:https?|ftp):\/\/)/i;
+      var href = protocol_pattern.test(url) ? url : 'http://' + url;
+      return '<a href="' + href + '" target="_blank">' + url + '</a>';
+    });
+  };

@@ -418,6 +418,10 @@ body.compact div.tab {
     height: 100%;
 }
 
+a:link {
+    color: black;
+}
+
 
 
 
