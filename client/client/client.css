@@ -60,6 +60,23 @@ body{
     flex-direction: column;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    /*border-image: linear-gradient(to bottom, #d8d4c0 0%, #b9b19e 8%, #c1a568 25%, #706a5c 62.5%, #5c564a)1 100%;*/
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ccc; 
+}
+
 div#tabHandles {
     width: 100%;
     flex: 0 0 auto;
