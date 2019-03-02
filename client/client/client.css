@@ -381,6 +381,42 @@ div#tabContent div.tab[name=Statistics] div#numpad a.button.disabled {
 div#tabContent div.tab[name=Statistics] div#numpad a.button.number {
     font-size: 1.5rem;
 }
+body.compact div.wrapper {
+    flex-direction: row;
+    padding: 0% 10%;
+}
+body.compact div#tabHandles {
+    width: auto;
+}
+body.compact div.ribbon-content {
+    height: 100%;
+    flex-direction: column;
+}
+body.compact div.ribbon-content div.nav {
+    flex-direction: column;
+}
+body.compact div.ribbon-content div.nav-right {
+    flex-direction: column;
+}
+body.compact div#tabHandles div.ribbon-content div.nav-right i#connected {
+    margin-right: 0px;
+}
+body.compact div.ribbon-content div.nav-right span#version {
+    writing-mode: vertical-lr;
+    text-orientation: sideways;
+    margin-right: 0px;
+}
+body.compact .ribbon:before, body.compact .ribbon:after, body.compact .ribbon-content:before, body.compact .ribbon-content:after {
+    display: none;
+}
+body.compact div#tabContent {
+    margin: 0px;
+    max-height: 100%;
+}
+body.compact div.tab {
+    box-sizing: border-box;
+    height: 100%;
+}
 
 
 

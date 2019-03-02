@@ -5,6 +5,14 @@
  */
 var d20 = [...Array(20).keys()].map(v=>v+1); //die faces 1-20
 
+function updateSettings() {
+    if(getConfig('compact') === true){
+        $('body').addClass('compact');
+    } else {
+        $('body').removeClass('compact');
+    }
+}
+
 var gui = {
     init : function(){
         this.initTabs();
@@ -12,6 +20,7 @@ var gui = {
         this.updateMessageList();
         //this.initStatistics();
         this.initSettings();
+        updateSettings();
         $(window).on("resize",gui.updateMessageList);
     },
     initTabs: function(){
@@ -50,6 +59,7 @@ var gui = {
                 
             config[$(e.target).attr("name")] = $(e.target).is(':checked');
             localStorage.setItem("config", JSON.stringify(config));
+            updateSettings();
         });
     },
     updateNumpad: function(){
