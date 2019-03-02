@@ -42,20 +42,30 @@ html, body {
     padding: 0;
     font-family: 'Neucha';
     font-size: 16px;
+    height: 100%;
 }
 
 body{
    background: url(../res/img/background.jpeg) top fixed;
    background-size: cover;
-   overflow: hidden;
+   /*overflow: hidden;*/
 }
 
 .wrapper {
-    margin: 5% 10%;
+    /*margin: 5% 10%;*/
+    height: 100%;
+    box-sizing: border-box;
+    padding: 5% 10%;
+    display: flex;
+    flex-direction: column;
 }
 
 div#tabHandles {
     width: 100%;
+    flex: 0 0 auto;
+}
+div#tabContent {
+    flex: 1 1 auto;
 }
 
 .ribbon-content {
@@ -204,7 +214,7 @@ div#tabHandles i#connected {
     flex-direction: row-reverse;
     background: url(../res/img/chalkboard.jpg) repeat;
     background-size: cover;
-    max-height: 30rem;
+    /*max-height: 30rem;*/
 }
 div#messageList {
     flex:80%;
@@ -281,12 +291,18 @@ a.button.inline {
 
 div#tabContent{
     margin: 0 1rem;
+    max-height: calc(100% - 5rem);
 }
 div#tabContent div.tab[name=Inventory], div#tabContent div.tab[name=Settings]{
     padding: 1rem;
     background: url(../res/img/wood.jpg) repeat;
     color: #eae7e2;
     min-height: 20rem;
+}
+div#tabContent div.tab[name=Comms] {
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
 }
 
 div#tabContent div.tab[name=Comms] div#contactList a.button {
