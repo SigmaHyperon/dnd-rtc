@@ -19,7 +19,7 @@ function guid() {
     s4() + '-' + s4() + s4() + s4();
 }
 function notify(title, options) {
-    if(getConfig("notifications")){
+    if(getConfig('notifications') && (!getConfig('notifications-unfocused') || (getConfig('notifications-unfocused') && !document.hasFocus()))){
         Notification.requestPermission(function(result) {
             if (result === 'granted') {
                 if (window.location.protocol === "https:"){
