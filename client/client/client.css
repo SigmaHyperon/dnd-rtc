@@ -55,7 +55,7 @@ body{
     /*margin: 5% 10%;*/
     height: 100%;
     box-sizing: border-box;
-    padding: 5% 10%;
+    padding: 2% 10%;
     display: flex;
     flex-direction: column;
 }
@@ -244,14 +244,14 @@ div#footer {
     align-items: center;
     background: url(../res/img/wood.jpg) repeat;
     padding: 2rem;
-    min-height: 100px;
+    min-height: 15px;
 }
 
 textarea#messageInput {
     resize: none;
     background: url(../res/img/paper.jpg) no-repeat;
     width: 80%;
-    height: 100px;
+    height: 50px;
     font-family: inherit;
 }
 
