@@ -20,6 +20,7 @@ var gui = {
         this.updateMessageList();
         //this.initStatistics();
         this.initSettings();
+        this.initFilter();
         updateSettings();
         $(window).on("resize",gui.updateMessageList);
     },
@@ -34,6 +35,7 @@ var gui = {
     initContacts: function(){
         $("div#tabContent div.tab[name=Comms] div#contactList a.button").off("click").on("click", function(){
             $(this).toggleClass("active");
+            gui.updateFilter();
         });
     },
     initSettings: function(){
@@ -61,6 +63,31 @@ var gui = {
             localStorage.setItem("config", JSON.stringify(config));
             updateSettings();
         });
+    },
+    initFilter: function(){
+        $("div#contactList input#filter").on('change', (e) => {
+            this.updateFilter();
+        });
+    },
+    updateFilter: function(){
+        let filterEnabled = $("div#contactList input#filter").is(':checked');
+        $("div#tabContent div.tab[name=Comms] div#messageList").children().removeClass('hidden');
+        if(filterEnabled){
+            let selectedRecipients = $("div#tabContent div.tab[name=Comms] div#contactList a.button.active").toArray().map(v=>$(v).attr("name"));
+            if(!(selectedRecipients.length === 0)){
+                $("div#tabContent div.tab[name=Comms] div#messageList").children().each((v, e) => {
+                    if($(e).hasClass('removed')){
+                        $(e).addClass('hidden');
+                        return;
+                    }
+                    let concerning = $(e).attr("concerning").split(' ');
+                    if(!concerning.some((v=>(selectedRecipients.indexOf(v) > -1)))){
+                        $(e).addClass('hidden');
+                    }
+                });
+            }
+        }
+        gui.updateMessageList();
     },
     updateNumpad: function(){
         $("div#tabContent div.tab[name=Statistics] div#numpad a.button.number").each(function(){
@@ -146,7 +173,7 @@ var gui = {
                 recipients.push(message.recipients[index].name);
             }
         }*/
-        var text = "<div class='message talk-bubble tri-right round left-top' uid='"+formatOutput(message.id)+"' concerning='" + formatOutput(message.recipients.map(v=>v.id).join(" ")) + "'>"+
+        var text = "<div class='message talk-bubble tri-right round left-top' uid='"+formatOutput(message.id)+"' concerning='" + formatOutput(message.sender.id) + "'>"+
                         "<div class='header'>"+
                             "<b>From:</b> "+formatOutput(message.sender.name)+"<br>"+
                             "<b>To:</b> "+ formatOutput(message.recipients.map(v=>v.name).join(", ")) +

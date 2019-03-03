@@ -289,6 +289,7 @@ div#messageList div.message.self {
 }
 div#messageList div.message.removed {
     font-style: italic;
+    color: white;
 }
 div#messageList div.message.hidden {
     display: none;
@@ -382,6 +383,10 @@ div#tabContent div.tab[name=Statistics] div#numpad a.button.disabled {
 div#tabContent div.tab[name=Statistics] div#numpad a.button.number {
     font-size: 1.5rem;
 }
+/*
+    Compact mode
+*/
+
 body.compact div.wrapper {
     flex-direction: row;
     padding: 0% 10%;
@@ -423,6 +428,9 @@ a:link {
     color: black;
 }
 
+/*
+    Checkbox Style
+*/
 input[type=checkbox] {
     position: relative;
     -webkit-appearance: none;
@@ -457,6 +465,15 @@ input[type=checkbox] {
     box-shadow: -2px 4px 3px rgba(0,0,0,0.05);
   }
 
+/*
+  Filter
+*/
+div#contactList label {
+    color: white;
+}
+div#messageList div.message.hidden {
+    display: none;
+}
 
 
 
