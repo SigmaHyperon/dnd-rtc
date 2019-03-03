@@ -175,8 +175,9 @@ var gui = {
         }*/
         var text = "<div class='message talk-bubble tri-right round left-top' uid='"+formatOutput(message.id)+"' concerning='" + formatOutput(message.sender.id) + "'>"+
                         "<div class='header'>"+
-                            "<b>From:</b> "+formatOutput(message.sender.name)+"<br>"+
-                            "<b>To:</b> "+ formatOutput(message.recipients.map(v=>v.name).join(", ")) +
+                            "<div class='metadata'><b>From:</b> "+formatOutput(message.sender.name)+"<br>"+
+                            "<b>To:</b> "+ formatOutput(message.recipients.map(v=>v.name).join(", "))+ '</div>' +
+                            '<div class="time">'+ formatDateISO8601(message.time.sent) + '</div>'+
                         "</div>"+
                         "<div class='body'>"+
                             formatOutput(message.text)+
@@ -206,7 +207,8 @@ var gui = {
         }
         var text = "<div class='message self talk-bubble tri-right round right-top' concerning='"+message.recipients.map(v=>v.id).join(' ')+"'>"+
                         "<div class='header'>"+
-                            "<b>Sent to:</b> "+ recipients.join(", ") +
+                            "<div class='metadata'><b>Sent to:</b> "+ recipients.join(", ")+ "</div>" +
+                            '<div class="time">'+ formatDateISO8601(message.time.sent) + '</div>'+
                         "</div>"+
                         "<div class='body'>"+
                             formatOutput(message.text)+

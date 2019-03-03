@@ -38,4 +38,15 @@ var wrapURLs = function (text) {
       var href = protocol_pattern.test(url) ? url : 'http://' + url;
       return '<a href="' + href + '" target="_blank">' + url + '</a>';
     });
-  };
+};
+function paddZero(text, length){
+    return `${'0'.repeat(length - `${text}`.length)}${text}`;
+}
+
+function formatDateISO8601(d){
+    let date = new Date(d);
+    let dateString = `${date.getFullYear()}-${paddZero(date.getMonth()+1, 2)}-${paddZero(date.getDate(), 2)}`;
+    let timeString = `${paddZero(date.getHours(), 2)}:${paddZero(date.getMinutes(), 2)}:${paddZero(date.getSeconds(), 2)}`;
+    let fullDateString = `${dateString} ${timeString}`;
+    return fullDateString;
+}
