@@ -489,6 +489,7 @@ div.message div.header div.metadata {
 }
 div.message div.header div.time {
     float: right;
+    margin-left: 2rem;
 }
 div.message div.body {
     float: left;
