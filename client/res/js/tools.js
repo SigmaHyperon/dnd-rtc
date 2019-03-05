@@ -50,3 +50,26 @@ function formatDateISO8601(d){
     let fullDateString = `${dateString} ${timeString}`;
     return fullDateString;
 }
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
+function extParseInt(s){
+    if(s == undefined || s == '')
+        return 0;
+    return parseInt(s);
+}
+
+function parseDice(s){
+    s = s.replace(/\s/g, '');
+    let match = s.match(/((\d*)d)?(\d{1,3})(\+(\d*))?/);
+    let c = extParseInt(match[2]);
+    c = c == 0 ? 1 : c;
+    let res = {plus: extParseInt(match[5]), rolls: []};
+    for (let index = 0; index < c; index++) {
+        res.rolls.push(getRandomInt(match[3])+1);
+    }
+    res.total = res.rolls.reduce((a,b) => a + b, 0) + extParseInt(res.plus);
+    return res;
+}

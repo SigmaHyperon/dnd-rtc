@@ -11,6 +11,7 @@ function updateSettings() {
     } else {
         $('body').removeClass('compact');
     }
+    gui.updateMessageList();
 }
 
 var gui = {
@@ -21,6 +22,7 @@ var gui = {
         //this.initStatistics();
         this.initSettings();
         this.initFilter();
+        this.initDice();
         updateSettings();
         $(window).on("resize",gui.updateMessageList);
     },
@@ -67,6 +69,15 @@ var gui = {
     initFilter: function(){
         $("div#contactList input#filter").on('change', (e) => {
             this.updateFilter();
+        });
+    },
+    initDice: function(){
+        $("div.tab[name=Statistics] input#dice").on("keydown", (e) => {
+            if(e.which == 13 ) {
+                e.preventDefault();
+                let res = parseDice($("div.tab[name=Statistics] input#dice").val());
+                $("div.tab[name=Statistics] div#dOutput").html(`<h3>${res.total}</h3><span>${res.rolls.join('+')}</span>`);
+            }
         });
     },
     updateFilter: function(){
