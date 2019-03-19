@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-let tools = require('./tools');
+let tools = require('./modules/tools');
 const express = require('express');
 var config = require('config');
 const isMockMongo = (config.has('mongodb.mock') && config.get('mongodb.mock') === true);
@@ -31,8 +31,8 @@ function getServiceConfig(prefix){
 }
 
 function initServer(db){
-    let io = require('./chat')(db);
-    let rest = require('./rest')(db);
+    let io = require('./modules/chat')(db);
+    let rest = require('./modules/rest')(db);
 
     if(config.has('http') && config.has('http.enabled') && config.get('http.enabled') === true){
         const http = require('http');

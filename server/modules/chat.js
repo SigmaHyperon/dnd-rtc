@@ -1,6 +1,6 @@
 let tools = require('./tools');
 var players = {};
-var classes = require('./classes.js');
+var classes = require('./classes');
 var getRedactedPlayers = function(){
     var redPlayers = {};
     for (var id in players) {
