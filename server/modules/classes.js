@@ -1,1 +1,1 @@
-../jslib/classes.js
+../../jslib/classes.js
