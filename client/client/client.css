@@ -219,7 +219,7 @@ div#tabHandles i#connected {
 }
 
 .row {
-
+    overflow: auto;
     display: flex;
     flex-direction: row-reverse;
     background: url(../res/img/chalkboard.jpg) repeat;
