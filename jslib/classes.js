@@ -50,9 +50,42 @@ class Recall {
     }
 }
 
+class Node {
+    constructor(){
+        this.id = c_guid();
+        this.connectedTo = [];
+    }
+    connectionCount(){
+        return this.connectedTo.length;
+    }
+    treeSize(from){
+        let count = 0;
+        for (let index = 0; index < this.connectedTo.length; index++) {
+            const element = this.connectedTo[index];
+            if(from != element.id){
+                count += element.treeSize(this.id);
+            }
+        }
+        return ++count;
+    }
+    listConnectedNodes(from){
+        let s = [this.id];
+        this.connectedTo.forEach(element => {
+            if(element.id != from) s.push(...element.listConnectedNodes(this.id));
+        });
+        return s;
+    }
+}
+class Connection {
+    constructor(){
+
+    }
+}
+
 if(typeof module != "undefined"){
     var exports = module.exports = {};
     exports.character = Character;
     exports.message = Message;
     exports.recall = Recall;
+    exports.node = Node;
 }
