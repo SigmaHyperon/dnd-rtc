@@ -14,16 +14,15 @@ let networkManager = {
 	},
 	restoreIntegrity(){
 		let fragments = [];
-		let index = 0;
-		//nodes to fragment ids
+        let index = 0;
+        let done = [];
 		this.nodes.forEach(element => {
-			fragments.push(...element.listConnectedNodes().map(v=>{return {id: v.id, fragment: index++}}));
+            if(done.indexOf(element.id) > -1){
+                let fragment = element.listConnectedNodes();
+                fragments.push(fragment);
+                done.push(...fragment);
+            }
 		});
-		//split each fragment into a speparate array
-		fragments = fragments.reduce((acc, cur) => {
-			if(typeof acc[cur.fragment] == 'undefined') acc[cur.fragment] = [];
-			acc[cur.fragment].push(cur.id);
-		}, []);
 	},
 	getById(id){
 		for (let index = 0; index < this.nodes.length; index++) {
