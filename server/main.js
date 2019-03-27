@@ -31,6 +31,17 @@ function getServiceConfig(prefix){
 }
 
 function initServer(db){
+    if(isMockMongo){
+        const {character} = require('./modules/classes');
+        let c1 = new character();
+        c1.name = "test";
+        c1.icon = 1;
+        let c2 = new character();
+        c2.name = "test2";
+        c2.icon = 2;
+        db.collection('characters').insertOne(c1);
+        db.collection('characters').insertOne(c2);
+    }
     let io = require('./modules/chat')(db);
     let rest = require('./modules/rest')(db);
 
