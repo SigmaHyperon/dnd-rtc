@@ -63,6 +63,7 @@ function emit(key, data){
 }
 function connect(id){
     var socket = io();
+    var peer;
     socket.on('connect', function(){
         if(id != undefined){
             socket.emit("join_pc", id);
@@ -72,6 +73,47 @@ function connect(id){
         sock = socket;
         gui.setConnectedStatus(true);
         gui.initStatistics(socket);
+    });
+    socket.response("getOffer", (req, res) => {
+        peer = new Peer({ initiator: true, trickle: false })
+        peer.on('signal', function(data){
+            res(data);
+        });
+    });
+    socket.response("getAnswer", (req, res) => {
+        peer = new Peer({ initiator: false, trickle: false })
+        peer.signal(req);
+
+    });
+    socket.reponse("finalize", (req, res) => {
+        if(peer != null){
+            peer.signal(req);
+
+            var counter = 0;
+            var i = setInterval(function(){
+     
+                peer.on("connect", function(){
+                    //connection established
+                    res(true);
+                    clearInterval(i);
+                });
+    
+                peer.on("error", function() {
+                    //something went fucking horribly and terrifically wrong, probably I think
+                    res(false);
+                    clearInterval(i);
+                });
+
+            counter++;
+            if(counter === 100) {
+              clearInterval(i);
+            }
+            }, 50);
+            //timeout error
+            res(false);
+        } else {
+            console.log("couldn't create peer, no anser or offer attempted")
+        }
     });
     socket.on('message', function(data){
         //console.log("message from: "+data.sender.name+": "+data.text);
