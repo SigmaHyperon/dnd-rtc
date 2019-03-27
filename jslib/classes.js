@@ -7,6 +7,8 @@ function c_guid() {
   return c_s4() + c_s4() + '-' + c_s4() + '-' + c_s4() + '-' +
     c_s4() + '-' + c_s4() + c_s4() + c_s4();
 }
+//const ioreq = require("socket.io-request");
+const ioreq = null;
 
 class Character {
     constructor(guid) {
@@ -54,6 +56,7 @@ class Node {
     constructor(){
         this.id = c_guid();
         this.connectedTo = [];
+        this.socket = null;
     }
     connectionCount(){
         return this.connectedTo.length;
@@ -74,6 +77,24 @@ class Node {
             if(element.id != from) s.push(...element.listConnectedNodes(this.id));
         });
         return s;
+    }
+    addConnectedNode(n){
+        if(n instanceof Node){
+            this.connectedTo.push(n);
+        } else {
+            throw "non-node instance";
+        }
+    }
+    connectTo(n){
+        let A = ioreq(this.socket);
+        let B = ioreq(n.socket);
+        A.request("getOffer").then((offer) => {
+            B.request("getAnswer", offer).then((answer) => {
+                A.request("finalize", answer);
+            });
+        });
+        this.addConnectedNode(n);
+        n.addConnectedNode(this);
     }
 }
 class Connection {

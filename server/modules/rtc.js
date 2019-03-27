@@ -1,4 +1,7 @@
 const ioreq = require("socket.io-request");
+function randomArrayElement(a){
+	return a[Math.floor(Math.random()*a.length)];
+}
 
 let networkManager = {
 	nodes: [],
@@ -17,12 +20,16 @@ let networkManager = {
         let index = 0;
         let done = [];
 		this.nodes.forEach(element => {
-            if(done.indexOf(element.id) > -1){
+            if(done.indexOf(element.id) == -1){
                 let fragment = element.listConnectedNodes();
                 fragments.push(fragment);
                 done.push(...fragment);
             }
 		});
+		for(let i = 0; i < fragments.length-1; i++){
+			let pair = [randomArrayElement(fragments[i]), randomArrayElement(fragments[i+1])];
+			pair[0].connectTo(pair[1]);
+		}
 	},
 	getById(id){
 		for (let index = 0; index < this.nodes.length; index++) {
