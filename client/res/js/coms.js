@@ -61,6 +61,7 @@ function emit(key, data){
     sock.emit(key,data);
     return true;
 }
+
 function connect(id){
     var socket = io();
     var peer;
@@ -102,6 +103,7 @@ function connect(id){
                     //something went fucking horribly and terrifically wrong, probably I think
                     res(false);
                     clearInterval(i);
+                    console.log("something went wrong at parsing the offer")
                 });
 
             counter++;
@@ -114,6 +116,12 @@ function connect(id){
         } else {
             console.log("couldn't create peer, no anser or offer attempted")
         }
+    });
+    peer.on('close', function () {
+        socket.emit("connectionLost")
+    });
+    peer.on('error', function(err){
+        socket.emit("connectionLost", err);
     });
     socket.on('message', function(data){
         //console.log("message from: "+data.sender.name+": "+data.text);
