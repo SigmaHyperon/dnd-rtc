@@ -9,13 +9,11 @@ let networkManager = {
 		this.nodes.push(n);
 	},
 	verifyIntegrity(){
-		if(this.nodes[0].treeSize() == this.nodes.length){
-			return true;
-		} else {
-
-		}
+		return this.nodes[0].treeSize() == this.nodes.length
 	},
 	restoreIntegrity(){
+		if(this.verifyIntegrity())
+			return;
 		let fragments = [];
         let index = 0;
         let done = [];
