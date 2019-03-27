@@ -90,11 +90,13 @@ class Node {
         let B = ioreq(n.socket);
         A.request("getOffer").then((offer) => {
             B.request("getAnswer", offer).then((answer) => {
-                A.request("finalize", answer);
+                A.request("finalize", answer).then(() => {
+                    this.addConnectedNode(n);
+                    n.addConnectedNode(this);
+                });
             });
         });
-        this.addConnectedNode(n);
-        n.addConnectedNode(this);
+        
     }
 }
 class Connection {
