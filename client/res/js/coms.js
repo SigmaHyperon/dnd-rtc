@@ -5,7 +5,6 @@
  */
 if (window.location.protocol === "https:")
     navigator.serviceWorker.register('/sw.js');
-var sock = null;
 function nl2br(str) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ '<br>' +'$2');
 }
@@ -53,15 +52,6 @@ class recall {
         this.id = id;
     }
 }
-
-function emit(key, data){
-    if(sock == null){
-        return false;
-    }
-    sock.emit(key,data);
-    return true;
-}
-
 function connect(id){
     var socket = io();
     var peer;
@@ -121,7 +111,8 @@ function connect(id){
         socket.emit("connectionLost")
     });
     peer.on('error', function(err){
-        socket.emit("connectionLost", err);
+        socket.emit("connectionLost");
+        Console.log(err);
     });
     socket.on('message', function(data){
         //console.log("message from: "+data.sender.name+": "+data.text);
