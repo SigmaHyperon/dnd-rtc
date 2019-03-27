@@ -5,7 +5,6 @@
  */
 if (window.location.protocol === "https:")
     navigator.serviceWorker.register('/sw.js');
-var sock = null;
 function nl2br(str) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ '<br>' +'$2');
 }
@@ -52,14 +51,6 @@ class recall {
         this.name = name;
         this.id = id;
     }
-}
-
-function emit(key, data){
-    if(sock == null){
-        return false;
-    }
-    sock.emit(key,data);
-    return true;
 }
 function connect(id){
     var socket = io();
