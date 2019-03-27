@@ -55,65 +55,67 @@ class recall {
 function connect(id){
     var socket = io();
     var peer;
+    let req = null;
     socket.on('connect', function(){
         if(id != undefined){
             socket.emit("join_pc", id);
         } else {
             socket.emit("getCharacters");
         }
-        sock = socket;
         gui.setConnectedStatus(true);
         gui.initStatistics(socket);
-    });
-    socket.response("getOffer", (req, res) => {
-        peer = new Peer({ initiator: true, trickle: false })
-        peer.on('signal', function(data){
-            res(data);
+        req = new SocketIORequest(socket);
+        req.response("getOffer", (req, res) => {
+            peer = new Peer({ initiator: true, trickle: false })
+            peer.on('signal', function(data){
+                res(data);
+            });
+        });
+        req.response("getAnswer", (req, res) => {
+            peer = new Peer({ initiator: false, trickle: false })
+            peer.signal(req);
+    
+        });
+        req.response("finalize", (req, res) => {
+            if(peer != null){
+                peer.signal(req);
+    
+                var counter = 0;
+                var i = setInterval(function(){
+         
+                    peer.on("connect", function(){
+                        //connection established
+                        res(true);
+                        clearInterval(i);
+                    });
+        
+                    peer.on("error", function() {
+                        //something went fucking horribly and terrifically wrong, probably I think
+                        res(false);
+                        clearInterval(i);
+                        console.log("something went wrong at parsing the offer")
+                    });
+    
+                counter++;
+                if(counter === 100) {
+                  clearInterval(i);
+                }
+                }, 50);
+                //timeout error
+                res(false);
+            } else {
+                console.log("couldn't create peer, no anser or offer attempted")
+            }
         });
     });
-    socket.response("getAnswer", (req, res) => {
-        peer = new Peer({ initiator: false, trickle: false })
-        peer.signal(req);
-
-    });
-    socket.reponse("finalize", (req, res) => {
-        if(peer != null){
-            peer.signal(req);
-
-            var counter = 0;
-            var i = setInterval(function(){
-     
-                peer.on("connect", function(){
-                    //connection established
-                    res(true);
-                    clearInterval(i);
-                });
-    
-                peer.on("error", function() {
-                    //something went fucking horribly and terrifically wrong, probably I think
-                    res(false);
-                    clearInterval(i);
-                    console.log("something went wrong at parsing the offer")
-                });
-
-            counter++;
-            if(counter === 100) {
-              clearInterval(i);
-            }
-            }, 50);
-            //timeout error
-            res(false);
-        } else {
-            console.log("couldn't create peer, no anser or offer attempted")
-        }
-    });
+    /*
     peer.on('close', function () {
         socket.emit("connectionLost")
     });
     peer.on('error', function(err){
         socket.emit("connectionLost");
         Console.log(err);
-    });
+    });*/
     socket.on('message', function(data){
         //console.log("message from: "+data.sender.name+": "+data.text);
         //$("div#tabContent div.tab[name=Comms] div#messageList").append("<div class='message'>"+data.name+" says: "+data.text+"</div>");
