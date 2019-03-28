@@ -2,3 +2,4 @@ server/config/*
 .vscode/*
 **/node_modules
 **/package-lock.json
+ssl/localhost.*
