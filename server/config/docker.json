@@ -1,0 +1,24 @@
+{
+    "mongodb": {
+        "url": "mongodb://mongo/dndtest",
+        "mock": false
+    },
+    "http": {
+        "enabled": true,
+        "bindApp": true,
+        "bindLetsEncrypt": false,
+        "port": 3000
+    },
+    "https": {
+        "enabled": false,
+        "bindApp": true,
+        "bindLetsEncrypt": false,
+        "certPath": "",
+        "keyPath": "",
+        "port": 3001
+    },
+    "letsEncrypt": {
+        "enabled": false,
+        "verificationPath": ""
+    }
+}

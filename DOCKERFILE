@@ -1,0 +1,20 @@
+FROM node:lts
+
+# Copy source code
+COPY server/package.json /app
+
+# Change working directory
+WORKDIR /app
+
+# Install dependencies
+RUN npm install --production
+
+COPY server/main.js /app
+COPY server/modules /app
+RUN  mkdir /app/config
+COPY server/config/docker.json /app/config/default.json
+
+EXPOSE 3000
+EXPOSE 3001
+
+CMD ["npm","start"]
