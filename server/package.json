@@ -1,5 +1,5 @@
 {
-  "name": "dnd",
+  "name": "dnd-rtc",
   "version": "1.0.0",
   "keywords": [
     "util",
@@ -14,7 +14,6 @@
     "config": ">=2.0.1",
     "express": ">=4.16.4",
     "mongodb": "2.2.35",
-    "morgan": ">=1.9.1",
     "socket.io": "^2.1.1",
     "socket.io-request": "^0.8.0"
   },
