@@ -1,6 +1,22 @@
 const ioreq = require("socket.io-request");
+const {guid} = require('./tools');
+let classes = require("./classes");
 function randomArrayElement(a){
 	return a[Math.floor(Math.random()*a.length)];
+}
+classes.node.connectTo = (n) => {
+	let A = ioreq(this.socket);
+	let B = ioreq(n.socket);
+	let cId = guid();
+	A.request("getOffer", cId).then((offer) => {
+		B.request("getAnswer", {offer: offer, id: cId}).then((answer) => {
+			A.request("finalize", {answer: answer, id: cId}).then(() => {
+				this.addConnectedNode(n, cId);
+				n.addConnectedNode(this, cId);
+			});
+		});
+	});
+	
 }
 
 let networkManager = {

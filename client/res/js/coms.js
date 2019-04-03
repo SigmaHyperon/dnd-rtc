@@ -52,6 +52,15 @@ class recall {
         this.id = id;
     }
 }
+class Connection {
+    constructor(id){
+        this.id = id;
+        this.peer = null;
+    }
+}
+let networkManager = {
+    connections: {},
+}
 function connect(id){
     var socket = io();
     var peer;
@@ -66,45 +75,42 @@ function connect(id){
         gui.initStatistics(socket);
         req = new SocketIORequest(socket);
         req.response("getOffer", (req, res) => {
+            let connection = new Connection(req);
             peer = new Peer({ initiator: true, trickle: false })
             peer.on('signal', function(data){
                 res(data);
             });
+            connection.peer = peer;
+            networkManager.connections[req] = connection;
         });
         req.response("getAnswer", (req, res) => {
+            let {cId, offer} = req;
+            let connection = new Connection(cId);
             peer = new Peer({ initiator: false, trickle: false })
-            peer.signal(req);
-    
+            peer.on('signal', function(data){
+                res(data);
+            });
+            peer.signal(offer);
+            connection.peer = peer;
+            networkManager.connections[cId] = connection;
         });
         req.response("finalize", (req, res) => {
             if(peer != null){
                 peer.signal(req);
-    
-                var counter = 0;
-                var i = setInterval(function(){
-         
-                    peer.on("connect", function(){
-                        //connection established
-                        res(true);
-                        clearInterval(i);
-                    });
-        
-                    peer.on("error", function() {
-                        //something went fucking horribly and terrifically wrong, probably I think
-                        res(false);
-                        clearInterval(i);
-                        console.log("something went wrong at parsing the offer")
-                    });
-    
-                counter++;
-                if(counter === 100) {
-                  clearInterval(i);
-                }
-                }, 50);
-                //timeout error
-                res(false);
+                peer.on("connect", function(){
+                    //connection established
+                    res(true);
+                    clearInterval(i);
+                });
+                peer.on("error", function() {
+                    //something went fucking horribly and terrifically wrong, probably I think
+                    res(false);
+                    clearInterval(i);
+                    console.log("something went wrong at parsing the offer")
+                });
             } else {
                 console.log("couldn't create peer, no anser or offer attempted")
+                res(false);
             }
         });
     });

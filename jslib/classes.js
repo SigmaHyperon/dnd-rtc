@@ -3,16 +3,14 @@ function c_s4() {
     .toString(16)
     .substring(1);
 }
-function c_guid() {
+function guid() {
   return c_s4() + c_s4() + '-' + c_s4() + '-' + c_s4() + '-' +
     c_s4() + '-' + c_s4() + c_s4() + c_s4();
 }
-//const ioreq = require("socket.io-request");
-const ioreq = null;
 
 class Character {
     constructor(guid) {
-        this.id = (guid == undefined) ? c_guid() : guid;
+        this.id = (guid == undefined) ? guid() : guid;
         this.name = "";
         this.password = "";
         this.icon = "";
@@ -33,7 +31,7 @@ class Character {
 
 class Message {
     constructor() {
-        this.id = c_guid();
+        this.id = guid();
         this.sender = null;
         this.recipients = [];
         this.text = "";
@@ -54,54 +52,45 @@ class Recall {
 
 class Node {
     constructor(){
-        this.id = c_guid();
-        this.connectedTo = [];
+        this.id = guid();
+        this.connectedTo = {};
         this.socket = null;
     }
     connectionCount(){
         return this.connectedTo.length;
     }
     treeSize(from){
-        let count = 0;
-        for (let index = 0; index < this.connectedTo.length; index++) {
-            const element = this.connectedTo[index];
-            if(from != element.id){
-                count += element.treeSize(this.id);
-            }
-        }
-        return ++count;
+        return Object.values(this.connectedTo)
+                     .filter(v => from != v.id)
+                     .reduce((acc, v) => acc + v.treeSize(this.id), 0);
     }
     listConnectedNodes(from){
-        let s = [this.id];
-        this.connectedTo.forEach(element => {
-            if(element.id != from) s.push(...element.listConnectedNodes(this.id));
-        });
-        return s;
+        // let s = [this.id];
+        // this.connectedTo.forEach(element => {
+        //     if(element.id != from) s.push(...element.listConnectedNodes(this.id));
+        // });
+
+        // Object.values(this.connectedTo).filter(v => v.id != from).forEach(element => {
+        //     s.push(...element.listConnectedNodes(this.id));
+        // });
+
+        // s.push(...Object.values(this.connectedTo).filter(v => v.id != from).reduce((acc, v) => [...acc, ...v.listConnectedNodes(this.id)]));
+
+        // return s;
+
+        return [
+            this.id, 
+            ...Object.values(this.connectedTo)
+                     .filter(v => v.id != from)
+                     .reduce((acc, v) => [...acc, ...v.listConnectedNodes(this.id)])
+        ];
     }
-    addConnectedNode(n){
+    addConnectedNode(n, id){
         if(n instanceof Node){
-            this.connectedTo.push(n);
+            this.connectedTo[id] = n;
         } else {
             throw "non-node instance";
         }
-    }
-    connectTo(n){
-        let A = ioreq(this.socket);
-        let B = ioreq(n.socket);
-        A.request("getOffer").then((offer) => {
-            B.request("getAnswer", offer).then((answer) => {
-                A.request("finalize", answer).then(() => {
-                    this.addConnectedNode(n);
-                    n.addConnectedNode(this);
-                });
-            });
-        });
-        
-    }
-}
-class Connection {
-    constructor(){
-
     }
 }
 
