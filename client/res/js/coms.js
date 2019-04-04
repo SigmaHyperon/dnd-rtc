@@ -76,9 +76,14 @@ function connect(id){
         req = new SocketIORequest(socket);
         req.response("getOffer", (req, res) => {
             let connection = new Connection(req);
-            peer = new Peer({ initiator: true, trickle: false })
+            peer = new Peer({ initiator: true, trickle: false });
             peer.on('signal', function(data){
                 res(data);
+            });
+            peer.on('data', (data) => {
+                Object.values(networkManager.connections).filter(v => connection.id != v.id).forEach(element => {
+                    element.peer.send(data);
+                });
             });
             connection.peer = peer;
             networkManager.connections[req] = connection;
@@ -86,9 +91,14 @@ function connect(id){
         req.response("getAnswer", (req, res) => {
             let {cId, offer} = req;
             let connection = new Connection(cId);
-            peer = new Peer({ initiator: false, trickle: false })
+            peer = new Peer({ initiator: false, trickle: false });
             peer.on('signal', function(data){
                 res(data);
+            });
+            peer.on('data', (data) => {
+                Object.values(networkManager.connections).filter(v => connection.id != v.id).forEach(element => {
+                    element.peer.send(data);
+                });
             });
             peer.signal(offer);
             connection.peer = peer;
