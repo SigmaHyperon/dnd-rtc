@@ -312,6 +312,12 @@ div#tabContent div.tab[name=Inventory], div#tabContent div.tab[name=Settings]{
     color: #eae7e2;
     min-height: 20rem;
 }
+div#tabContent div.tab[name=Map] {
+    padding: 1rem;
+    background: url(../res/img/wood.jpg) repeat;
+    color: #eae7e2;
+    min-height: 20rem;
+}
 div#tabContent div.tab[name=Comms] {
     display: flex;
     flex-direction: column;
