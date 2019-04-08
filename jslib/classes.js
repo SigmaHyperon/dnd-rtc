@@ -10,11 +10,7 @@ function guid() {
 
 class Character {
     constructor(uid) {
-<<<<<<< HEAD
-        this.id = (uid == undefined) ? guid() : guid;
-=======
         this.id = (uid == undefined) ? guid() : uid;
->>>>>>> backend
         this.name = "";
         this.password = "";
         this.icon = "";
