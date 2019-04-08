@@ -9,8 +9,8 @@ function guid() {
 }
 
 class Character {
-    constructor(guid) {
-        this.id = (guid == undefined) ? guid() : guid;
+    constructor(uid) {
+        this.id = (uid == undefined) ? guid() : guid;
         this.name = "";
         this.password = "";
         this.icon = "";
