@@ -10,7 +10,11 @@ function guid() {
 
 class Character {
     constructor(uid) {
+<<<<<<< HEAD
         this.id = (uid == undefined) ? guid() : guid;
+=======
+        this.id = (uid == undefined) ? guid() : uid;
+>>>>>>> backend
         this.name = "";
         this.password = "";
         this.icon = "";
@@ -65,25 +69,10 @@ class Node {
                      .reduce((acc, v) => acc + v.treeSize(this.id), 0);
     }
     listConnectedNodes(from){
-        // let s = [this.id];
-        // this.connectedTo.forEach(element => {
-        //     if(element.id != from) s.push(...element.listConnectedNodes(this.id));
-        // });
-
-        // Object.values(this.connectedTo).filter(v => v.id != from).forEach(element => {
-        //     s.push(...element.listConnectedNodes(this.id));
-        // });
-
-        // s.push(...Object.values(this.connectedTo).filter(v => v.id != from).reduce((acc, v) => [...acc, ...v.listConnectedNodes(this.id)]));
-
-        // return s;
-
-        return [
-            this.id, 
-            ...Object.values(this.connectedTo)
-                     .filter(v => v.id != from)
-                     .reduce((acc, v) => [...acc, ...v.listConnectedNodes(this.id)])
-        ];
+        let connected = Object.values(this.connectedTo)
+            .filter(v => v.id != from)
+            .reduce((acc, v) => [...acc, ...v.listConnectedNodes(this.id)]);
+        return [this.id, ...connected];
     }
     addConnectedNode(n, id){
         if(n instanceof Node){

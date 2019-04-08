@@ -60,7 +60,16 @@ class Connection {
 }
 let networkManager = {
     connections: {},
+    callback: null
 }
+function dataRelay(data){
+    Object.values(networkManager.connections).filter(v => connection.id != v.id).forEach(element => {
+        element.peer.send(data);
+    });
+    if(typeof networkManager.callback === 'function')
+        networkManager.callback(data);
+}
+
 function connect(id){
     var socket = io();
     var peer;
@@ -76,20 +85,22 @@ function connect(id){
         req = new SocketIORequest(socket);
         req.response("getOffer", (req, res) => {
             let connection = new Connection(req);
-            peer = new Peer({ initiator: true, trickle: false })
+            peer = new Peer({ initiator: true, trickle: false });
             peer.on('signal', function(data){
                 res(data);
             });
+            peer.on('data', dataRelay);
             connection.peer = peer;
             networkManager.connections[req] = connection;
         });
         req.response("getAnswer", (req, res) => {
             let {cId, offer} = req;
             let connection = new Connection(cId);
-            peer = new Peer({ initiator: false, trickle: false })
+            peer = new Peer({ initiator: false, trickle: false });
             peer.on('signal', function(data){
                 res(data);
             });
+            peer.on('data', dataRelay);
             peer.signal(offer);
             connection.peer = peer;
             networkManager.connections[cId] = connection;
