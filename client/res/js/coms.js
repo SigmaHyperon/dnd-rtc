@@ -32,25 +32,6 @@ function notify(title, options) {
             }
         });
     }
-  }
-class message {
-    constructor(name, text){
-        this.id = guid();
-        this.name = name;
-        this.recipients = [];
-        this.text = text;
-        this.status = {};
-        this.time = {
-            sent: Date.now(),
-            received: {}
-        };
-    }
-}
-class recall {
-    constructor(name, id){
-        this.name = name;
-        this.id = id;
-    }
 }
 class Connection {
     constructor(id){
