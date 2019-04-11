@@ -32,6 +32,10 @@ var gui = {
             $(this).addClass("active");
             $("div#tabContent").children().hide();
             $("div#tabContent div.tab[name='"+$(this).attr("name")+"']").show();
+            if($(this).attr("name") == "Map"){
+                console.log("lol");
+                gui.updateMap();
+            }
         });
     },
     initContacts: function(){
@@ -265,4 +269,28 @@ var gui = {
     clearMessages: function(){
         $("div#tabContent div.tab[name=Comms] div#messageList").children().remove();
     },
+    updateMap : function(){
+        var canvas = $("div#tabContent div.tab[name=Map] canvas#myCanvas")[0].getContext("2d");
+        var canvasDOM = $("div#tabContent div.tab[name=Map] canvas#myCanvas");
+        window.addEventListener('resize', resizeCanvas, false);
+
+        function resizeCanvas(){
+            canvasDOM[0].width = canvasDOM.parent().width();
+           // console.log(canvasDOM.parent().width());
+            canvasDOM[0].height = window.innerHeight - canvasDOM[0].offsetTop - parseInt(canvasDOM.parent().css("padding"));
+        }
+        function clearCanvas() {
+            canvas.clearRect(0,0,canvasDOM[0].width, canvasDOM[0].height);
+            //canvas.beginPath();
+            //canvas.arc(Math.random() * 90,50,50,20,0,2*Math.PI);
+            //canvas.stroke();
+        }
+        resizeCanvas();
+        clearCanvas();
+        
+    },
+
+    drawMap : function(input){
+        //input = JSON file (name/id, posx, posy, health, params...)
+    }
 }

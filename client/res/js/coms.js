@@ -71,6 +71,7 @@ function dataRelay(data){
 }
 
 function connect(id){
+    
     var socket = io();
     var peer;
     let req = null;
